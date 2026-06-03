@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maison Dorée — Champagne d'Exception</title>
+  <meta name="description" content="Maison Dorée, Champagne d'exception depuis 1847. Découvrez nos cuvées prestigieuses issues du coeur de la Champagne." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="#hero" class="nav__logo">
+        <span class="nav__logo-ornament">✦</span>
+        <span class="nav__logo-text">Maison Dorée</span>
+        <span class="nav__logo-ornament">✦</span>
+      </a>
+
+      <ul class="nav__menu" id="navMenu">
+        <li><a href="#histoire" class="nav__link">Notre Histoire</a></li>
+        <li><a href="#cuvees" class="nav__link">Nos Cuvées</a></li>
+        <li><a href="#terroir" class="nav__link">Terroir</a></li>
+        <li><a href="#accords" class="nav__link">Accords</a></li>
+        <li><a href="#boutique" class="nav__link">Boutique</a></li>
+        <li><a href="#contact" class="nav__link nav__link--cta">Contact</a></li>
+      </ul>
+
+      <button class="nav__hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="hero">
+      <div class="hero__bg"></div>
+      <div class="hero__overlay"></div>
+      <div class="hero__bubbles" aria-hidden="true">
+        <div class="bubble bubble--1"></div>
+        <div class="bubble bubble--2"></div>
+        <div class="bubble bubble--3"></div>
+        <div class="bubble bubble--4"></div>
+        <div class="bubble bubble--5"></div>
+        <div class="bubble bubble--6"></div>
+        <div class="bubble bubble--7"></div>
+        <div class="bubble bubble--8"></div>
+      </div>
+      <div class="hero__content">
+        <p class="hero__eyebrow reveal-up">Depuis 1847</p>
+        <h1 class="hero__title reveal-up">
+          <span class="hero__title-line">L'Art du</span>
+          <span class="hero__title-line hero__title-line--italic">Champagne</span>
+        </h1>
+        <div class="hero__divider reveal-up" aria-hidden="true">
+          <span class="hero__divider-line"></span>
+          <span class="hero__divider-icon">❧</span>
+          <span class="hero__divider-line"></span>
+        </div>
+        <p class="hero__subtitle reveal-up">
+          Cinq générations d'excellence au cœur de la Champagne.<br />
+          Des bulles d'exception nées d'un terroir unique.
+        </p>
+        <div class="hero__actions reveal-up">
+          <a href="#cuvees" class="btn btn--primary">Découvrir nos cuvées</a>
+          <a href="#histoire" class="btn btn--ghost">Notre histoire</a>
+        </div>
+      </div>
+      <a href="#histoire" class="hero__scroll" aria-label="Défiler vers le bas">
+        <span class="hero__scroll-text">Découvrir</span>
+        <span class="hero__scroll-arrow"></span>
+      </a>
+    </section>
+
+    <!-- ===================== NOTRE HISTOIRE ===================== -->
+    <section class="histoire section" id="histoire">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <p class="section-label">Notre Histoire</p>
+          <h2 class="section-title">Cinq Générations<br /><em>d'Excellence</em></h2>
+          <div class="section-divider" aria-hidden="true">✦</div>
+        </div>
+
+        <div class="histoire__grid">
+          <div class="histoire__image-wrap reveal-left">
+            <div class="histoire__image-frame">
+              <div class="histoire__image-placeholder">
+                <div class="histoire__image-icon">🍾</div>
+                <span>Cave de la Maison Dorée, 1874</span>
+              </div>
+            </div>
+            <div class="histoire__image-badge">
+              <span class="histoire__image-badge-year">1847</span>
+              <span class="histoire__image-badge-text">Fondation</span>
+            </div>
+          </div>
+
+          <div class="histoire__content reveal-right">
+            <p class="histoire__intro">
+              Tout commence dans les coteaux d'Épernay, où Édouard Fontaine plante ses premiers pieds de vigne sur un sol crayeux d'exception.
+            </p>
+            <p class="histoire__text">
+              En 1847, mu par une passion inébranlable pour l'élaboration des vins effervescents, il crée la Maison Dorée. Chaque millésime raconte l'histoire d'une famille profondément attachée à la terre champenoise, aux savoir-faire transmis de génération en génération, et à la quête permanente de la perfection.
+            </p>
+            <p class="histoire__text">
+              Aujourd'hui, Sophie Fontaine perpétue cet héritage avec une vision contemporaine, alliant tradition séculaire et viticulture durable. Nos vignes, labourées à cheval, nos vendanges entièrement manuelles, témoignent d'un engagement total pour la qualité.
+            </p>
+
+            <div class="histoire__stats">
+              <div class="histoire__stat">
+                <span class="histoire__stat-number">175</span>
+                <span class="histoire__stat-label">Ans d'histoire</span>
+              </div>
+              <div class="histoire__stat-divider" aria-hidden="true"></div>
+              <div class="histoire__stat">
+                <span class="histoire__stat-number">32</span>
+                <span class="histoire__stat-label">Hectares de vignes</span>
+              </div>
+              <div class="histoire__stat-divider" aria-hidden="true"></div>
+              <div class="histoire__stat">
+                <span class="histoire__stat-number">5</span>
+                <span class="histoire__stat-label">Générations</span>
+              </div>
+            </div>
+
+            <blockquote class="histoire__quote">
+              <p>« Le champagne n'est pas un vin, c'est un état d'esprit. »</p>
+              <cite>— Édouard Fontaine, Fondateur</cite>
+            </blockquote>
+          </div>
+        </div>
+
+        <div class="histoire__timeline reveal-up">
+          <div class="histoire__timeline-item">
+            <span class="histoire__timeline-year">1847</span>
+            <div class="histoire__timeline-dot"></div>
+            <p class="histoire__timeline-text">Fondation par Édouard Fontaine</p>
+          </div>
+          <div class="histoire__timeline-item">
+            <span class="histoire__timeline-year">1889</span>
+            <div class="histoire__timeline-dot"></div>
+            <p class="histoire__timeline-text">Médaille d'Or à l'Exposition Universelle</p>
+          </div>
+          <div class="histoire__timeline-item">
+            <span class="histoire__timeline-year">1923</span>
+            <div class="histoire__timeline-dot"></div>
+            <p class="histoire__timeline-text">Fournisseur de la Cour Royale</p>
+          </div>
+          <div class="histoire__timeline-item">
+            <span class="histoire__timeline-year">1978</span>
+            <div class="histoire__timeline-dot"></div>
+            <p class="histoire__timeline-text">Certification biologique des vignes</p>
+          </div>
+          <div class="histoire__timeline-item">
+            <span class="histoire__timeline-year">2012</span>
+            <div class="histoire__timeline-dot"></div>
+            <p class="histoire__timeline-text">Reprise par Sophie Fontaine</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NOS CUVÉES ===================== -->
+    <section class="cuvees section section--dark" id="cuvees">
+      <div class="container">
+        <div class="section-header section-header--light reveal-up">
+          <p class="section-label section-label--light">Nos Cuvées</p>
+          <h2 class="section-title section-title--light">Champagnes<br /><em>d'Exception</em></h2>
+          <div class="section-divider section-divider--light" aria-hidden="true">✦</div>
+          <p class="section-subtitle section-subtitle--light">
+            Chaque cuvée est une invitation au voyage, une exploration des nuances infinies de notre terroir.
+          </p>
+        </div>
+
+        <div class="cuvees__grid">
+
+          <!-- Carte 1 -->
+          <article class="cuvee-card reveal-up" data-delay="0">
+            <div class="cuvee-card__inner">
+              <div class="cuvee-card__front">
+                <div class="cuvee-card__label-bg cuvee-card__label-bg--or"></div>
+                <div class="cuvee-card__bottle">
+                  <div class="cuvee-card__bottle-icon">🥂</div>
+                </div>
+                <div class="cuvee-card__info">
+                  <span class="cuvee-card__badge">Brut Nature</span>
+                  <h3 class="cuvee-card__name">Cuvée Prestige</h3>
+                  <p class="cuvee-card__vintage">Millésime 2018</p>
+                  <div class="cuvee-card__rating">
+                    <span class="cuvee-card__stars">★★★★★</span>
+                    <span class="cuvee-card__score">97 pts</span>
+                  </div>
+                  <p class="cuvee-card__price">89 €</p>
+                </div>
+              </div>
+              <div class="cuvee-card__back">
+                <h3 class="cuvee-card__back-title">Cuvée Prestige</h3>
+                <p class="cuvee-card__back-desc">
+                  L'expression ultime de notre savoir-faire. Un assemblage de Chardonnay grand cru aux notes de brioche chaude, d'agrumes confits et d'amande grillée. Une finale d'une longueur incomparable.
+                </p>
+                <div class="cuvee-card__back-details">
+                  <div class="cuvee-card__back-detail">
+                    <span class="cuvee-card__back-label">Cépage</span>
+                    <span class="cuvee-card__back-value">100% Chardonnay</span>
+                  </div>
+                  <div class="cuvee-card__back-detail">
+                    <span class="cuvee-card__back-label">Vieillissement</span>
+                    <span class="cuvee-card__back-value">8 ans sur lattes</span>
+                  </div>
+                  <div class="cuvee-card__back-detail">
+                    <span class="cuvee-card__back-label">Dosage</span>
+                    <span class="cuvee-card__back-value">0 g/L</span>
+                  </div>
+                </div>
+                <a href="#boutique" class="btn btn--gold-small">Commander</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Carte 2 -->
+          <article class="cuvee-card reveal-up" data-delay="100">
+            <div class="cuvee-card__inner">
+              <div class="cuvee-card__front">
+                <div class="cuvee-card__label-bg cuvee-card__label-bg--rose"></div>
+                <div class="cuvee-card__bottle">
+                  <div class="cuvee-card__bottle-icon">🍾</div>
+                </div>
+                <div class="cuvee-card__info">
+                  <span class="cuvee-card__badge cuvee-card__badge--rose">Rosé de Saignée</span>
+                  <h3 class="cuvee-card__name">Belle Époque Rosé</h3>
+                  <p class="cuvee-card__vintage">Millésime 2019</p>
+                  <div class="cuvee-card__rating">
+                    <span class="cuvee-card__stars">★★★★★</span>
+                    <span class="cuvee-card__score">95 pts</span>
+                  </div>
+                  <p class="cuvee-card__price">120 €</p>
+                </div>
+              </div>
+              <div class="cuvee-card__back">
+                <h3 class="cuvee-card__back-title">Belle Époque Rosé</h3>
+                <p class="cuvee-card__back-desc">
+                  Un rosé d'une élégance rare, né d'une saignée de Pinot Noir. Des arômes de fruits rouges frais, de rose et de pivoine se mêlent à une fraîcheur minérale irrésistible.
+                </p>
+                <div class="cuvee-card__back-details">
+                  <div class="cuvee-card__back-detail">
+                    <span class="cuvee-card__back-label">Cépage</span>
+                    <span class="cuvee-card__back-value">80% Pinot Noir, 20% Chard.</span>
+                  </div>
+                  <div class="cuvee-card__back-detail">
+                    <span class="cuvee-card__back-label">Vieillissement</span>
+                    <span class="cuvee-card__back-value">5 ans sur lattes</span>
+                  </div>
+                  <div class="cuvee-card__back-detail">
+                    <span class="cuvee-card__back-label">Dosage</span>
+                    <span class="cuvee-card__back-value">4 g/L</span>
+                  </div>
+                </div>
+                <a href="#boutique" class="btn btn--gold-small">Commander</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Carte 3 -->
+          <article class="cuvee-card reveal-up" data-delay="200">
+            <div class="cuvee-card__inner">
+              <div class="cuvee-card__front">
+                <div class="cuvee-card__label-bg cuvee-card__label-bg--noir"></div>
+                <div class="cuvee-card__bottle">
+                  <div class="cuvee-card__bottle-icon">🥂</div>
+                </div>
+                <div class="cuvee-card__info">
+                  <span class="cuvee-card__badge cuvee-card__badge--noir">Extra Brut</span>
+                  <h3 class="cuvee-card__name">Grande Réserve</h3>
+                  <p class="cuvee-card__vintage">Non Millésimé</p>
+                  <div class="cuvee-card__rating">
+                    <span class="cuvee-card__stars">★★★★☆</span>
+                    <span class="cuvee-card__score">93 pts</span>
+                  </div>
+                  <p class="cuvee-card__price">65 €</p>
+                </div>
+              </div>
+              <div class="cuvee-card__back">
+                <h3 class="cuvee-card__back-title">Grande Réserve</h3>
+                <p class="cuvee-card__back-desc">
+                  Notre cuvée de prestige non millésimée, symbole de constance et de maîtrise. Un équilibre parfait entre puissance et délicatesse, avec une belle persistance aromatique.
+                </p>
+                <div class="cuvee-card__back-details">
+                  <div class="cuvee-card__back-detail">
+                    <span class="cuvee-card__back-label">Cépage</span>
+                    <span class="cuvee-card__back-value">50% PN, 30% PM, 20% CH</span>
+                  </div>
+                  <div class="cuvee-card__back-detail">
+                    <span class="cuvee-card__back-label">Vieillissement</span>
+                    <span class="cuvee-card__back-value">3 ans sur lattes</span>
+                  </div>
+                  <div class="cuvee-card__back-detail">
+                    <span class="cuvee-card__back-label">Dosage</span>
+                    <span class="cuvee-card__back-value">6 g/L</span>
+                  </div>
+                </div>
+                <a href="#boutique" class="btn btn--gold-small">Commander</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Carte 4 -->
+          <article class="cuvee-card reveal-up" data-delay="300">
+            <div class="cuvee-card__inner">
+              <div class="cuvee-card__front">
+                <div class="cuvee-card__label-bg cuvee-card__label-bg--blanc"></div>
+                <div class="cuvee-card__bottle">
+                  <div class="cuvee-card__bottle-icon">🍾</div>
+                </div>
+                <div class="cuvee-card__info">
+                  <span class="cuvee-card__badge cuvee-card__badge--blanc">Blanc de Blancs</span>
+                  <h3 class="cuvee-card__name">Quintessence</h3>
+                  <p class="cuvee-card__vintage">Millésime 2015</p>
+                  <div class="cuvee-card__rating">
+                    <span class="cuvee-card__stars">★★★★★</span>
+                    <span class="cuvee-card__score">99 pts</span>
+                  </div>
+                  <p class="cuvee-card__price">195 €</p>
+                </div>
+              </div>
+              <div class="cuvee-card__back">
+                <h3 class="cuvee-card__back-title">Quintessence</h3>
+                <p class="cuvee-card__back-desc">
+                  Notre cuvée la plus emblématique. Issue d'une parcelle unique de Chardonnay centenaire, elle incarne l'essence même de la Champagne avec une complexité aromatique hors du commun.
+                </p>
+                <div class="cuvee-card__back-details">
+                  <div class="cuvee-card__back-detail">
+                    <span class="cuvee-card__back-label">Cépage</span>
+                    <span class="cuvee-card__back-value">100% Chardonnay Centenaire</span>
+                  </div>
+                  <div class="cuvee-card__back-detail">
+                    <span class="cuvee-card__back-label">Vieillissement</span>
+                    <span class="cuvee-card__back-value">10 ans sur lattes</span>
+                  </div>
+                  <div class="cuvee-card__back-detail">
+                    <span class="cuvee-card__back-label">Dosage</span>
+                    <span class="cuvee-card__back-value">2 g/L</span>
+                  </div>
+                </div>
+                <a href="#boutique" class="btn btn--gold-small">Commander</a>
+              </div>
+            </div>
+          </article>
+
+        </div><!-- /.cuvees__grid -->
+      </div>
+    </section>
+
+    <!-- ===================== TERROIR ===================== -->
+    <section class="terroir section" id="terroir">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <p class="section-label">La Terre</p>
+          <h2 class="section-title">Notre<br /><em>Terroir</em></h2>
+          <div class="section-divider" aria-hidden="true">✦</div>
+        </div>
+
+        <div class="terroir__intro reveal-up">
+          <p>Au cœur de la Côte des Blancs, nos 32 hectares de vignes reposent sur un sol crayeux d'une profondeur exceptionnelle. Cette craie, véritable éponge naturelle, régule l'alimentation en eau et confère à nos vins cette minéralité incomparable.</p>
+        </div>
+
+        <div class="terroir__features">
+          <div class="terroir__feature reveal-up" data-delay="0">
+            <div class="terroir__feature-icon">🌍</div>
+            <h3 class="terroir__feature-title">Sol Crayeux</h3>
+            <p class="terroir__feature-text">
+              Notre craie de Champagne, datant du Crétacé supérieur, s'étend à plus de 200 mètres de profondeur. Elle garantit un drainage parfait et une fraîcheur constante indispensable à la vigne.
+            </p>
+          </div>
+
+          <div class="terroir__feature reveal-up" data-delay="100">
+            <div class="terroir__feature-icon">☀️</div>
+            <h3 class="terroir__feature-title">Microclima Unique</h3>
+            <p class="terroir__feature-text">
+              Situé à 49° de latitude nord, le vignoble bénéficie d'un ensoleillement optimal et de températures fraîches qui permettent une lente maturation, préservant les arômes délicats.
+            </p>
+          </div>
+
+          <div class="terroir__feature reveal-up" data-delay="200">
+            <div class="terroir__feature-icon">🌿</div>
+            <h3 class="terroir__feature-title">Viticulture Durable</h3>
+            <p class="terroir__feature-text">
+              Certifiés HVE (Haute Valeur Environnementale), nous labourons nos vignes à cheval, pratiquons la lutte intégrée et préservons la biodiversité de chaque parcelle.
+            </p>
+          </div>
+
+          <div class="terroir__feature reveal-up" data-delay="300">
+            <div class="terroir__feature-icon">🍇</div>
+            <h3 class="terroir__feature-title">Vendanges Manuelles</h3>
+            <p class="terroir__feature-text">
+              Chaque raisin est cueilli à la main, à maturité optimale, par une équipe de 120 vendangeurs passionnés. La sélection rigoureuse garantit une qualité irréprochable.
+            </p>
+          </div>
+        </div>
+
+        <div class="terroir__map reveal-up">
+          <div class="terroir__map-inner">
+            <div class="terroir__map-graphic">
+              <div class="terroir__map-region">
+                <div class="terroir__map-pin terroir__map-pin--1">
+                  <span class="terroir__map-pin-dot"></span>
+                  <span class="terroir__map-pin-label">Épernay</span>
+                </div>
+                <div class="terroir__map-pin terroir__map-pin--2">
+                  <span class="terroir__map-pin-dot"></span>
+                  <span class="terroir__map-pin-label">Côte des Blancs</span>
+                </div>
+                <div class="terroir__map-pin terroir__map-pin--3">
+                  <span class="terroir__map-pin-dot"></span>
+                  <span class="terroir__map-pin-label">Maison Dorée</span>
+                </div>
+                <div class="terroir__map-vines">
+                  <div class="terroir__map-vine-row"></div>
+                  <div class="terroir__map-vine-row"></div>
+                  <div class="terroir__map-vine-row"></div>
+                  <div class="terroir__map-vine-row"></div>
+                  <div class="terroir__map-vine-row"></div>
+                </div>
+              </div>
+            </div>
+            <div class="terroir__map-info">
+              <h3 class="terroir__map-title">Nos Parcelles</h3>
+              <ul class="terroir__map-list">
+                <li>
+                  <span class="terroir__map-dot terroir__map-dot--or"></span>
+                  <span>Lieu-dit « Les Charmes » — 8 ha — Grand Cru</span>
+                </li>
+                <li>
+                  <span class="terroir__map-dot terroir__map-dot--or"></span>
+                  <span>Lieu-dit « La Côte Blanche » — 12 ha — Grand Cru</span>
+                </li>
+                <li>
+                  <span class="terroir__map-dot terroir__map-dot--cream"></span>
+                  <span>Lieu-dit « Le Clos des Moines » — 7 ha — Premier Cru</span>
+                </li>
+                <li>
+                  <span class="terroir__map-dot terroir__map-dot--cream"></span>
+                  <span>Lieu-dit « Val Fleuri » — 5 ha — Premier Cru</span>
+                </li>
+              </ul>
+              <p class="terroir__map-total">Total : <strong>32 hectares classifiés</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ACCORDS METS & CHAMPAGNE ===================== -->
+    <section class="accords section section--dark" id="accords">
+      <div class="container">
+        <div class="section-header section-header--light reveal-up">
+          <p class="section-label section-label--light">Gastronomie</p>
+          <h2 class="section-title section-title--light">Accords Mets<br /><em>&amp; Champagne</em></h2>
+          <div class="section-divider section-divider--light" aria-hidden="true">✦</div>
+          <p class="section-subtitle section-subtitle--light">
+            Le champagne, compagnon de tous les instants, sublime chaque plat et transforme chaque repas en célébration.
+          </p>
+        </div>
+
+        <div class="accords__grid">
+
+          <div class="accord-card reveal-up" data-delay="0">
+            <div class="accord-card__header">
+              <span class="accord-card__emoji">🦞</span>
+              <div class="accord-card__champagne-badge">Cuvée Prestige</div>
+            </div>
+            <h3 class="accord-card__title">Fruits de Mer &amp; Crustacés</h3>
+            <p class="accord-card__text">
+              La minéralité et la fraîcheur de notre Cuvée Prestige s'harmonisent parfaitement avec les saveurs iodées des huîtres, homards et langoustines.
+            </p>
+            <div class="accord-card__examples">
+              <span class="accord-tag">Huîtres Bélon</span>
+              <span class="accord-tag">Homard Thermidor</span>
+              <span class="accord-tag">Crevettes grillées</span>
+            </div>
+          </div>
+
+          <div class="accord-card reveal-up" data-delay="100">
+            <div class="accord-card__header">
+              <span class="accord-card__emoji">🍓</span>
+              <div class="accord-card__champagne-badge accord-card__champagne-badge--rose">Belle Époque Rosé</div>
+            </div>
+            <h3 class="accord-card__title">Desserts &amp; Fraises</h3>
+            <p class="accord-card__text">
+              Les notes fruitées et florales de notre Rosé de Saignée créent une symphonie avec les desserts aux fruits rouges et les préparations à base de fraises ou framboises.
+            </p>
+            <div class="accord-card__examples">
+              <span class="accord-tag">Fraises Mara des Bois</span>
+              <span class="accord-tag">Tarte aux framboises</span>
+              <span class="accord-tag">Macarons rose</span>
+            </div>
+          </div>
+
+          <div class="accord-card reveal-up" data-delay="200">
+            <div class="accord-card__header">
+              <span class="accord-card__emoji">🧀</span>
+              <div class="accord-card__champagne-badge accord-card__champagne-badge--noir">Grande Réserve</div>
+            </div>
+            <h3 class="accord-card__title">Fromages Affinés</h3>
+            <p class="accord-card__text">
+              La complexité et la générosité de notre Grande Réserve se marient divinement avec des fromages à pâte molle ou légèrement affinés. Un mariage inattendu et délicieux.
+            </p>
+            <div class="accord-card__examples">
+              <span class="accord-tag">Brie de Meaux</span>
+              <span class="accord-tag">Époisses</span>
+              <span class="accord-tag">Comté 18 mois</span>
+            </div>
+          </div>
+
+          <div class="accord-card reveal-up" data-delay="300">
+            <div class="accord-card__header">
+              <span class="accord-card__emoji">🥚</span>
+              <div class="accord-card__champagne-badge accord-card__champagne-badge--blanc">Quintessence</div>
+            </div>
+            <h3 class="accord-card__title">Gastronomie Étoilée</h3>
+            <p class="accord-card__text">
+              La Quintessence, par sa profondeur et sa complexité, est la compagne idéale des plats de haute gastronomie. Truffe noire, caviar, foie gras — elle sublimera chaque préparation d'exception.
+            </p>
+            <div class="accord-card__examples">
+              <span class="accord-tag">Truffe noire du Périgord</span>
+              <span class="accord-tag">Caviar Osciètre</span>
+              <span class="accord-tag">Foie gras mi-cuit</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="accords__conseil reveal-up">
+          <div class="accords__conseil-icon">💡</div>
+          <div class="accords__conseil-content">
+            <h3 class="accords__conseil-title">Le Conseil de la Maison</h3>
+            <p class="accords__conseil-text">
+              Servez votre champagne entre 8 et 10°C dans une flûte ou un verre tulipe pour apprécier pleinement les arômes. Évitez la coupe plate qui fait trop rapidement s'évaporer les bulles.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BOUTIQUE ===================== -->
+    <section class="boutique section" id="boutique">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <p class="section-label">Boutique en ligne</p>
+          <h2 class="section-title">Commander<br /><em>nos Champagnes</em></h2>
+          <div class="section-divider" aria-hidden="true">✦</div>
+          <p class="section-subtitle">
+            Livraison sécurisée en France et dans toute l'Europe. Coffrets cadeaux disponibles.
+          </p>
+        </div>
+
+        <div class="boutique__grid">
+
+          <!-- Produit 1 -->
+          <div class="produit-card reveal-up" data-delay="0">
+            <div class="produit-card__badge">Bestseller</div>
+            <div class="produit-card__image">
+              <div class="produit-card__bottle">🍾</div>
+            </div>
+            <div class="produit-card__body">
+              <p class="produit-card__type">Brut Nature</p>
+              <h3 class="produit-card__name">Cuvée Prestige 2018</h3>
+              <div class="produit-card__rating">★★★★★ <span>(127 avis)</span></div>
+              <p class="produit-card__desc">Notes de brioche, agrumes confits et amande grillée.</p>
+              <div class="produit-card__footer">
+                <div class="produit-card__price-wrap">
+                  <span class="produit-card__price">89,00 €</span>
+                  <span class="produit-card__price-unit">/ bouteille 75cl</span>
+                </div>
+                <div class="produit-card__qty" data-product="prestige">
+                  <button class="qty-btn qty-btn--minus" aria-label="Diminuer la quantité">−</button>
+                  <input type="number" class="qty-input" value="1" min="1" max="99" readonly aria-label="Quantité" />
+                  <button class="qty-btn qty-btn--plus" aria-label="Augmenter la quantité">+</button>
+                </div>
+                <button class="btn btn--add-cart" data-name="Cuvée Prestige 2018" data-price="89">
+                  Ajouter au panier
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produit 2 -->
+          <div class="produit-card reveal-up" data-delay="100">
+            <div class="produit-card__badge produit-card__badge--rose">Coup de cœur</div>
+            <div class="produit-card__image produit-card__image--rose">
+              <div class="produit-card__bottle">🥂</div>
+            </div>
+            <div class="produit-card__body">
+              <p class="produit-card__type">Rosé de Saignée</p>
+              <h3 class="produit-card__name">Belle Époque Rosé 2019</h3>
+              <div class="produit-card__rating">★★★★★ <span>(89 avis)</span></div>
+              <p class="produit-card__desc">Arômes de fruits rouges, rose fraîche et minéralité.</p>
+              <div class="produit-card__footer">
+                <div class="produit-card__price-wrap">
+                  <span class="produit-card__price">120,00 €</span>
+                  <span class="produit-card__price-unit">/ bouteille 75cl</span>
+                </div>
+                <div class="produit-card__qty" data-product="rose">
+                  <button class="qty-btn qty-btn--minus" aria-label="Diminuer la quantité">−</button>
+                  <input type="number" class="qty-input" value="1" min="1" max="99" readonly aria-label="Quantité" />
+                  <button class="qty-btn qty-btn--plus" aria-label="Augmenter la quantité">+</button>
+                </div>
+                <button class="btn btn--add-cart" data-name="Belle Époque Rosé 2019" data-price="120">
+                  Ajouter au panier
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produit 3 -->
+          <div class="produit-card reveal-up" data-delay="200">
+            <div class="produit-card__image">
+              <div class="produit-card__bottle">🍾</div>
+            </div>
+            <div class="produit-card__body">
+              <p class="produit-card__type">Extra Brut</p>
+              <h3 class="produit-card__name">Grande Réserve NM</h3>
+              <div class="produit-card__rating">★★★★☆ <span>(214 avis)</span></div>
+              <p class="produit-card__desc">Équilibre parfait entre puissance et délicatesse.</p>
+              <div class="produit-card__footer">
+                <div class="produit-card__price-wrap">
+                  <span class="produit-card__price">65,00 €</span>
+                  <span class="produit-card__price-unit">/ bouteille 75cl</span>
+                </div>
+                <div class="produit-card__qty" data-product="reserve">
+                  <button class="qty-btn qty-btn--minus" aria-label="Diminuer la quantité">−</button>
+                  <input type="number" class="qty-input" value="1" min="1" max="99" readonly aria-label="Quantité" />
+                  <button class="qty-btn qty-btn--plus" aria-label="Augmenter la quantité">+</button>
+                </div>
+                <button class="btn btn--add-cart" data-name="Grande Réserve NM" data-price="65">
+                  Ajouter au panier
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produit 4 - Coffret -->
+          <div class="produit-card produit-card--featured reveal-up" data-delay="300">
+            <div class="produit-card__badge produit-card__badge--gold">Édition Limitée</div>
+            <div class="produit-card__image produit-card__image--dark">
+              <div class="produit-card__bottle">🥂</div>
+              <div class="produit-card__bottle produit-card__bottle--2">🍾</div>
+            </div>
+            <div class="produit-card__body">
+              <p class="produit-card__type">Blanc de Blancs</p>
+              <h3 class="produit-card__name">Quintessence 2015</h3>
+              <div class="produit-card__rating">★★★★★ <span>(52 avis)</span></div>
+              <p class="produit-card__desc">L'expression ultime, 10 ans sur lattes, parcelle centenaire.</p>
+              <div class="produit-card__footer">
+                <div class="produit-card__price-wrap">
+                  <span class="produit-card__price">195,00 €</span>
+                  <span class="produit-card__price-unit">/ bouteille 75cl</span>
+                </div>
+                <div class="produit-card__qty" data-product="quintessence">
+                  <button class="qty-btn qty-btn--minus" aria-label="Diminuer la quantité">−</button>
+                  <input type="number" class="qty-input" value="1" min="1" max="99" readonly aria-label="Quantité" />
+                  <button class="qty-btn qty-btn--plus" aria-label="Augmenter la quantité">+</button>
+                </div>
+                <button class="btn btn--add-cart" data-name="Quintessence 2015" data-price="195">
+                  Ajouter au panier
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.boutique__grid -->
+
+        <!-- Cart notification -->
+        <div class="cart-toast" id="cartToast" role="status" aria-live="polite">
+          <span class="cart-toast__icon">✓</span>
+          <span class="cart-toast__text"></span>
+        </div>
+
+        <div class="boutique__cta reveal-up">
+          <div class="boutique__cta-inner">
+            <span class="boutique__cta-icon">🎁</span>
+            <div>
+              <h3>Coffrets Cadeaux Personnalisés</h3>
+              <p>Créez votre coffret sur mesure avec un message personnalisé. Emballage luxe offert pour toute commande de 3 bouteilles ou plus.</p>
+            </div>
+            <a href="#contact" class="btn btn--primary">Nous contacter</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT / NEWSLETTER ===================== -->
+    <section class="contact section section--dark" id="contact">
+      <div class="container">
+        <div class="contact__grid">
+
+          <div class="contact__newsletter reveal-left">
+            <p class="section-label section-label--light">Newsletter</p>
+            <h2 class="contact__title">Rejoignez<br /><em>le Cercle Dorée</em></h2>
+            <p class="contact__subtitle">
+              Recevez en avant-première nos nouvelles cuvées, les actualités de la Maison et des invitations exclusives aux dégustations privées.
+            </p>
+            <form class="newsletter-form" id="newsletterForm" novalidate>
+              <div class="newsletter-form__row">
+                <div class="newsletter-form__field">
+                  <label for="firstName" class="newsletter-form__label">Prénom *</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    class="newsletter-form__input"
+                    placeholder="Sophie"
+                    autocomplete="given-name"
+                  />
+                  <span class="newsletter-form__error" id="firstNameError"></span>
+                </div>
+                <div class="newsletter-form__field">
+                  <label for="lastName" class="newsletter-form__label">Nom *</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    class="newsletter-form__input"
+                    placeholder="Fontaine"
+                    autocomplete="family-name"
+                  />
+                  <span class="newsletter-form__error" id="lastNameError"></span>
+                </div>
+              </div>
+              <div class="newsletter-form__field">
+                <label for="email" class="newsletter-form__label">Adresse e-mail *</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="newsletter-form__input"
+                  placeholder="sophie@example.fr"
+                  autocomplete="email"
+                />
+                <span class="newsletter-form__error" id="emailError"></span>
+              </div>
+              <div class="newsletter-form__field newsletter-form__field--checkbox">
+                <label class="newsletter-form__checkbox-label">
+                  <input type="checkbox" id="ageVerify" name="ageVerify" class="newsletter-form__checkbox" />
+                  <span class="newsletter-form__checkbox-custom"></span>
+                  <span>Je certifie avoir 18 ans ou plus et accepte la <a href="#" class="newsletter-form__link">politique de confidentialité</a> *</span>
+                </label>
+                <span class="newsletter-form__error" id="ageError"></span>
+              </div>
+              <button type="submit" class="btn btn--primary btn--full">
+                <span class="btn__text">M'inscrire au Cercle Dorée</span>
+                <span class="btn__icon">→</span>
+              </button>
+              <div class="newsletter-form__success" id="formSuccess" role="alert" aria-live="polite">
+                <span>✓</span> Bienvenue dans le Cercle Dorée ! Vous recevrez bientôt notre première lettre.
+              </div>
+            </form>
+          </div>
+
+          <div class="contact__info reveal-right">
+            <div class="contact__card">
+              <h3 class="contact__card-title">Nous Rendre Visite</h3>
+              <address class="contact__address">
+                <div class="contact__address-line">
+                  <span class="contact__address-icon">📍</span>
+                  <span>12 Route des Vignes, 51200 Épernay, Champagne</span>
+                </div>
+                <div class="contact__address-line">
+                  <span class="contact__address-icon">📞</span>
+                  <span>+33 (0)3 26 00 00 00</span>
+                </div>
+                <div class="contact__address-line">
+                  <span class="contact__address-icon">✉</span>
+                  <span>contact@maisondoree-champagne.fr</span>
+                </div>
+              </address>
+            </div>
+
+            <div class="contact__card">
+              <h3 class="contact__card-title">Horaires des Visites</h3>
+              <ul class="contact__hours">
+                <li>
+                  <span>Lundi – Vendredi</span>
+                  <span>9h00 – 18h00</span>
+                </li>
+                <li>
+                  <span>Samedi</span>
+                  <span>10h00 – 17h00</span>
+                </li>
+                <li>
+                  <span>Dimanche</span>
+                  <span>Sur rendez-vous</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="contact__card">
+              <h3 class="contact__card-title">Expériences Exclusives</h3>
+              <ul class="contact__experiences">
+                <li>🥂 Visite des caves historiques</li>
+                <li>🍇 Vendanges participatives (septembre)</li>
+                <li>🍽️ Dîner de dégustation sur réservation</li>
+                <li>🎓 Masterclass méthode champenoise</li>
+              </ul>
+            </div>
+
+            <div class="contact__social">
+              <p>Suivez la Maison Dorée</p>
+              <div class="contact__social-links">
+                <a href="#" class="contact__social-link" aria-label="Instagram">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <a href="#" class="contact__social-link" aria-label="Facebook">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href="#" class="contact__social-link" aria-label="Pinterest">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <p class="footer__logo">
+            <span>✦</span> Maison Dorée <span>✦</span>
+          </p>
+          <p class="footer__tagline">L'Art du Champagne depuis 1847</p>
+          <p class="footer__desc">
+            Un héritage familial de cinq générations au service de l'excellence champenoise, dans le plus pur respect du terroir et de la tradition.
+          </p>
+        </div>
+        <div class="footer__links-col">
+          <h4 class="footer__links-title">Navigation</h4>
+          <ul class="footer__links">
+            <li><a href="#histoire">Notre Histoire</a></li>
+            <li><a href="#cuvees">Nos Cuvées</a></li>
+            <li><a href="#terroir">Le Terroir</a></li>
+            <li><a href="#accords">Accords Mets</a></li>
+            <li><a href="#boutique">Boutique</a></li>
+          </ul>
+        </div>
+        <div class="footer__links-col">
+          <h4 class="footer__links-title">La Maison</h4>
+          <ul class="footer__links">
+            <li><a href="#">Visites &amp; Dégustations</a></li>
+            <li><a href="#">Presse &amp; Médias</a></li>
+            <li><a href="#">Recrutement</a></li>
+            <li><a href="#">Partenaires</a></li>
+            <li><a href="#">Exportation</a></li>
+          </ul>
+        </div>
+        <div class="footer__links-col">
+          <h4 class="footer__links-title">Informations</h4>
+          <ul class="footer__links">
+            <li><a href="#">Mentions légales</a></li>
+            <li><a href="#">Politique de confidentialité</a></li>
+            <li><a href="#">CGV</a></li>
+            <li><a href="#">Livraison &amp; Retours</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__divider"></div>
+      <div class="footer__bottom">
+        <p class="footer__legal">
+          © 2024 Maison Dorée — Champagne d'Exception. Tous droits réservés.
+        </p>
+        <p class="footer__warning">
+          L'abus d'alcool est dangereux pour la santé. À consommer avec modération. Interdit aux mineurs.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Age Gate Overlay -->
+  <div class="age-gate" id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageGateTitle">
+    <div class="age-gate__inner">
+      <div class="age-gate__logo">
+        <span>✦</span> Maison Dorée <span>✦</span>
+      </div>
+      <h2 class="age-gate__title" id="ageGateTitle">Bienvenue</h2>
+      <p class="age-gate__subtitle">Pour accéder à notre site, vous devez avoir l'âge légal pour consommer de l'alcool dans votre pays de résidence.</p>
+      <p class="age-gate__question">Êtes-vous majeur(e) ?</p>
+      <div class="age-gate__actions">
+        <button class="btn btn--primary" id="ageGateYes">Oui, j'ai 18 ans ou plus</button>
+        <a href="https://www.google.fr" class="btn btn--ghost" id="ageGateNo">Non, quitter le site</a>
+      </div>
+      <p class="age-gate__warning">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
