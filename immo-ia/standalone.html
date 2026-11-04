@@ -1,0 +1,661 @@
+<title>ImmoIA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root{
+  --bg:#f5f6f8;--card:#fff;--ink:#14181f;--muted:#5d6675;--line:#e3e6ec;
+  --brand:#2b59ff;--brand-ink:#fff;
+  --good:#12805c;--good-bg:#dff5ec;--ok:#8a6a00;--ok-bg:#fdf1c9;--mid:#b35400;--mid-bg:#ffe6cf;--bad:#b3261e;--bad-bg:#fde0dd;
+  --radius:14px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1218;--card:#181c25;--ink:#eef0f4;--muted:#9aa3b2;--line:#2a303c;--brand:#6c8cff;--brand-ink:#0b0e14;
+  --good:#4fd1a1;--good-bg:#12372c;--ok:#f0cd5a;--ok-bg:#3a3213;--mid:#ffa660;--mid-bg:#40290f;--bad:#ff8c84;--bad-bg:#40191a;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0f1218;--card:#181c25;--ink:#eef0f4;--muted:#9aa3b2;--line:#2a303c;--brand:#6c8cff;--brand-ink:#0b0e14;
+  --good:#4fd1a1;--good-bg:#12372c;--ok:#f0cd5a;--ok-bg:#3a3213;--mid:#ffa660;--mid-bg:#40290f;--bad:#ff8c84;--bad-bg:#40191a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.top__in{display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{font-weight:800;font-size:1.2rem;color:var(--ink);text-decoration:none}
+.logo__mark{color:var(--brand)}
+.tabs{display:flex;gap:4px}
+.tab{border:0;background:none;color:var(--muted);font:inherit;font-weight:600;padding:8px 14px;border-radius:999px;cursor:pointer}
+.tab.is-on{background:var(--brand);color:var(--brand-ink)}
+.hero{padding:36px 0 22px}
+.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);line-height:1.15;margin:0 0 8px}
+.hero em{font-style:normal;color:var(--brand)}
+.hero p{margin:0;color:var(--muted);max-width:640px}
+.hero .demo{margin-top:10px;font-size:.85rem}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.f{display:flex;flex-direction:column;gap:4px;font-size:.8rem;font-weight:600;color:var(--muted)}
+.f--wide{grid-column:span 2}
+input,select{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);min-width:0}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+.sim summary{cursor:pointer}
+.sim__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:8px}
+.sim__grid label{display:flex;flex-direction:column;gap:4px;font-size:.8rem}
+.sim__grid .chk{flex-direction:row;align-items:center;gap:6px}
+.count{margin:18px 2px 10px;color:var(--muted);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:10px;text-align:left;font:inherit;color:inherit;transition:transform .12s,box-shadow .12s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(20,30,60,.12)}
+.card__head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.card h3{margin:0;font-size:1.05rem}
+.card .where{color:var(--muted);font-size:.85rem}
+.price{font-size:1.35rem;font-weight:800}
+.price small{font-weight:500;color:var(--muted);font-size:.8rem}
+.score{flex:none;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.1rem;border:4px solid}
+.s-good{color:var(--good);border-color:var(--good);background:var(--good-bg)}
+.s-ok{color:var(--ok);border-color:var(--ok);background:var(--ok-bg)}
+.s-mid{color:var(--mid);border-color:var(--mid);background:var(--mid-bg)}
+.s-bad{color:var(--bad);border-color:var(--bad);background:var(--bad-bg)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.metric{background:var(--bg);border-radius:10px;padding:8px}
+.metric b{display:block;font-size:1rem}
+.metric span{font-size:.72rem;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px}
+.tag.neutral{background:var(--bg);color:var(--muted)}
+.verdict{font-weight:700;font-size:.9rem}
+.muted{color:var(--muted)}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{padding:10px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{cursor:pointer;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;user-select:none}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--bg)}
+dialog{border:0;border-radius:18px;padding:0;max-width:760px;width:calc(100% - 24px);background:var(--card);color:var(--ink);max-height:92vh}
+dialog::backdrop{background:rgba(5,10,25,.55)}
+.m{padding:22px;display:flex;flex-direction:column;gap:16px}
+.m__top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.m__close{border:0;background:var(--bg);color:var(--ink);width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer}
+.m h2{margin:0}
+.box{background:var(--bg);border-radius:12px;padding:14px}
+.box h4{margin:0 0 8px;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rows{display:grid;grid-template-columns:1fr auto;gap:5px 14px;font-size:.92rem}
+.rows b{text-align:right}
+.bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;background:var(--brand)}
+ul.list{margin:0;padding-left:18px}
+ul.list li{margin:3px 0}
+.pro li::marker{color:var(--good)}.con li::marker{color:var(--bad)}
+.offer{font-size:1.5rem;font-weight:800;color:var(--brand)}
+.foot{padding-block:30px 50px;color:var(--muted);font-size:.8rem}
+@media(max-width:560px){.two{grid-template-columns:1fr}.f--wide{grid-column:auto}}
+
+body{background:var(--bg);color:var(--ink);padding-block:0}
+</style>
+<header class="top">
+    <div class="wrap top__in">
+      <a class="logo" href="#"><span class="logo__mark">◆</span> ImmoIA</a>
+      <nav class="tabs" role="tablist">
+        <button class="tab is-on" data-view="annonces" role="tab">Annonces</button>
+        <button class="tab" data-view="secteurs" role="tab">Secteurs</button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <h1>Quel bien acheter, <em>vraiment</em> ?</h1>
+      <p>Toute la France. Chaque annonce est analysée : prix vs marché, rentabilité nette, cash-flow, et marge de négociation.</p>
+      <p class="demo">Mode démonstration — annonces et données de marché fictives/indicatives.</p>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <!-- ========== ANNONCES ========== -->
+    <div id="view-annonces">
+      <form id="filters" class="panel filters">
+        <label class="f f--wide">Ville, département ou région
+          <input name="q" type="search" placeholder="Lyon, 69, Occitanie…" autocomplete="off" />
+        </label>
+        <label class="f">Type
+          <select name="type">
+            <option value="">Tous</option><option value="studio">Studio</option><option value="t2">T2</option>
+            <option value="t3">T3</option><option value="t4">T4</option><option value="maison">Maison</option>
+            <option value="immeuble">Immeuble de rapport</option>
+          </select>
+        </label>
+        <label class="f">Région
+          <select name="region" id="regionSel"><option value="">Toute la France</option></select>
+        </label>
+        <label class="f">Budget max (€)
+          <input name="maxPrice" type="number" min="0" step="10000" placeholder="250000" />
+        </label>
+        <label class="f">Surface min (m²)
+          <input name="minSurface" type="number" min="0" placeholder="20" />
+        </label>
+        <label class="f">Rendement net min (%)
+          <input name="minYield" type="number" min="0" step="0.5" placeholder="5" />
+        </label>
+        <label class="f">Négociation
+          <select name="nego"><option value="">Toutes</option><option>Facile</option><option>Possible</option><option>Difficile</option></select>
+        </label>
+        <label class="f">Trier par
+          <select name="sort">
+            <option value="score">Score IA</option><option value="yield">Rendement net</option>
+            <option value="discount">Décote vs marché</option><option value="nego">Facilité de négociation</option>
+            <option value="price">Prix croissant</option>
+          </select>
+        </label>
+        <details class="f f--wide sim">
+          <summary>Simulation de financement</summary>
+          <div class="sim__grid">
+            <label>Apport (%)<input name="apport" type="number" value="10" min="0" max="100" /></label>
+            <label>Taux (%)<input name="rate" type="number" value="3.8" step="0.1" min="0" /></label>
+            <label>Durée (ans)<input name="years" type="number" value="20" min="5" max="30" /></label>
+            <label class="chk"><input name="gestion" type="checkbox" value="1" /> Gestion locative (7 %)</label>
+          </div>
+        </details>
+      </form>
+
+      <p id="count" class="count" aria-live="polite"></p>
+      <div id="grid" class="grid"></div>
+    </div>
+
+    <!-- ========== SECTEURS ========== -->
+    <div id="view-secteurs" hidden>
+      <div class="panel">
+        <h2>Rendement par ville</h2>
+        <p class="muted">Rendement brut de référence = loyer moyen annuel / prix moyen (frais de notaire inclus). Cliquez sur une ville pour voir ses annonces.</p>
+        <div class="tablewrap">
+          <table id="sectors">
+            <thead><tr>
+              <th data-k="city">Ville</th><th data-k="pxM2">Prix €/m²</th><th data-k="rentM2">Loyer €/m²</th>
+              <th data-k="grossYieldRef">Rdt brut</th><th data-k="tension">Demande</th><th data-k="trend">Prix 12 mois</th><th data-k="avgScore">Score moy.</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <dialog id="modal"><div id="modalBody"></div></dialog>
+
+  <footer class="wrap foot">
+    ImmoIA est un outil d'aide à la décision, pas un conseil en investissement. Données de démonstration.
+  </footer>
+<script>
+(function(){
+var __mods={},__cache={};
+function __req(n){n=n.replace(/^\.\//,'').replace(/\.js$/,'');if(!__cache[n]){var m={exports:{}};__cache[n]=m;__mods[n](m,m.exports,__req);}return __cache[n].exports;}
+__mods["data"]=function(module,exports,require){'use strict';
+/**
+ * Données de marché INDICATIVES par ville (ordre de grandeur 2024-2025).
+ * pxM2 = prix moyen appartement ancien (€/m²), rentM2 = loyer nu moyen (€/m²/mois),
+ * tension = demande locative (0 faible → 1 très forte), trend = évolution prix 12 mois (%).
+ * À remplacer par des sources officielles (DVF, observatoires des loyers) pour un usage réel.
+ */
+const CITIES = [
+  ['Paris', '75', 'Île-de-France', 10500, 31, 0.98, -3.5],
+  ['Lyon', '69', 'Auvergne-Rhône-Alpes', 5300, 15.5, 0.9, -1.0],
+  ['Marseille', '13', "Provence-Alpes-Côte d'Azur", 3500, 15, 0.85, 1.0],
+  ['Toulouse', '31', 'Occitanie', 4000, 13.5, 0.85, 0.5],
+  ['Nice', '06', "Provence-Alpes-Côte d'Azur", 5000, 17.5, 0.8, 0.0],
+  ['Nantes', '44', 'Pays de la Loire', 3900, 13.5, 0.85, -1.5],
+  ['Bordeaux', '33', 'Nouvelle-Aquitaine', 4600, 14.5, 0.85, -2.0],
+  ['Lille', '59', 'Hauts-de-France', 3700, 15, 0.9, 0.5],
+  ['Strasbourg', '67', 'Grand Est', 3500, 13.5, 0.8, 0.0],
+  ['Montpellier', '34', 'Occitanie', 3600, 14, 0.85, -0.5],
+  ['Rennes', '35', 'Bretagne', 4000, 14, 0.9, -1.0],
+  ['Grenoble', '38', 'Auvergne-Rhône-Alpes', 2900, 12.5, 0.75, -2.0],
+  ['Dijon', '21', 'Bourgogne-Franche-Comté', 2800, 12, 0.7, 0.0],
+  ['Saint-Étienne', '42', 'Auvergne-Rhône-Alpes', 1100, 8.5, 0.5, 1.0],
+  ['Le Havre', '76', 'Normandie', 2100, 11, 0.65, 2.0],
+  ['Rouen', '76', 'Normandie', 2900, 12, 0.75, 0.0],
+  ['Reims', '51', 'Grand Est', 2700, 11.5, 0.7, 0.0],
+  ['Limoges', '87', 'Nouvelle-Aquitaine', 1500, 9, 0.5, 1.5],
+  ['Clermont-Ferrand', '63', 'Auvergne-Rhône-Alpes', 2200, 10.5, 0.65, 0.5],
+  ['Mulhouse', '68', 'Grand Est', 1500, 10, 0.55, 1.0],
+  ['Metz', '57', 'Grand Est', 2000, 10.5, 0.6, 0.5],
+  ['Nîmes', '30', 'Occitanie', 2100, 11, 0.6, 0.5],
+  ['Perpignan', '66', 'Occitanie', 1700, 10.5, 0.6, 1.5],
+  ['Toulon', '83', "Provence-Alpes-Côte d'Azur", 3100, 13, 0.7, 0.5],
+  ['Angers', '49', 'Pays de la Loire', 3000, 12, 0.75, -0.5],
+  ['Tours', '37', 'Centre-Val de Loire', 3000, 12, 0.75, -0.5],
+  ['Brest', '29', 'Bretagne', 2200, 11, 0.65, 1.0],
+  ['Poitiers', '86', 'Nouvelle-Aquitaine', 2200, 10.5, 0.65, 0.0],
+  ['Besançon', '25', 'Bourgogne-Franche-Comté', 2200, 11, 0.65, 0.0],
+  ['Nancy', '54', 'Grand Est', 2400, 11.5, 0.7, 0.0],
+  ['Amiens', '80', 'Hauts-de-France', 2300, 11.5, 0.65, 0.5],
+  ['Béziers', '34', 'Occitanie', 1700, 10, 0.55, 1.0],
+  ['Roubaix', '59', 'Hauts-de-France', 1800, 11.5, 0.7, 1.5],
+  ['Bayonne', '64', 'Nouvelle-Aquitaine', 4000, 14.5, 0.8, 0.0],
+  ['La Rochelle', '17', 'Nouvelle-Aquitaine', 4600, 14, 0.8, -1.0],
+].map(([name, dept, region, pxM2, rentM2, tension, trend]) => ({
+  name, dept, region, pxM2, rentM2, tension, trend,
+}));
+
+// Générateur pseudo-aléatoire déterministe (annonces stables entre redémarrages)
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const TYPES = [
+  { key: 'studio', label: 'Studio', surf: [16, 30], rooms: 1, w: 3 },
+  { key: 't2', label: 'T2', surf: [32, 48], rooms: 2, w: 5 },
+  { key: 't3', label: 'T3', surf: [52, 72], rooms: 3, w: 4 },
+  { key: 't4', label: 'T4', surf: [75, 100], rooms: 4, w: 2 },
+  { key: 'maison', label: 'Maison', surf: [85, 160], rooms: 5, w: 3 },
+  { key: 'immeuble', label: 'Immeuble de rapport', surf: [180, 380], rooms: 0, w: 2 },
+];
+const SELLERS = ['Particulier', 'Agence', 'Agence', 'Agence', 'Succession', 'Notaire (vente interactive)', 'Marchand de biens'];
+const DPE = ['A', 'B', 'C', 'C', 'D', 'D', 'D', 'E', 'E', 'F', 'G'];
+const STREETS = ['rue de la République', 'avenue Jean Jaurès', 'rue Victor Hugo', 'boulevard Gambetta', 'rue Pasteur', 'place du Marché', 'rue des Lilas', 'avenue de la Gare', 'rue Voltaire', 'cours Lafayette'];
+
+function generateListings(n = 160) {
+  const rnd = mulberry32(20241104);
+  const pick = (arr) => arr[Math.floor(rnd() * arr.length)];
+  const between = (a, b) => a + rnd() * (b - a);
+  const bag = TYPES.flatMap((t) => Array(t.w).fill(t));
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const city = CITIES[Math.floor(rnd() * CITIES.length)];
+    const type = pick(bag);
+    const surface = Math.round(between(type.surf[0], type.surf[1]));
+    const dpe = pick(DPE);
+    const seller = pick(SELLERS);
+    const worksLevel = rnd() < 0.3 ? Math.round(between(300, 1100)) : 0; // €/m² de travaux
+    const typeFactor = type.key === 'maison' ? 0.88 : type.key === 'immeuble' ? 0.78 : type.key === 'studio' ? 1.12 : 1;
+    const base = city.pxM2 * typeFactor;
+    // écart de prix vs marché : de -25 % (affaire/travaux) à +22 % (survalorisé)
+    const gap = between(-0.22, 0.22) - (worksLevel ? 0.08 : 0);
+    const askPxM2 = base * (1 + gap);
+    const price = Math.round((askPxM2 * surface) / 1000) * 1000;
+    const daysOnline = Math.floor(Math.pow(rnd(), 1.6) * 260) + 1;
+    const priceDrops = daysOnline > 30 ? Math.min(3, Math.floor(rnd() * (daysOnline / 70 + 1))) : 0;
+    const units = type.key === 'immeuble' ? 4 + Math.floor(rnd() * 5) : 1;
+    const floor = ['studio', 't2', 't3', 't4'].includes(type.key) ? Math.floor(rnd() * 7) : null;
+    out.push({
+      id: i + 1,
+      city: city.name, dept: city.dept, region: city.region,
+      address: `${Math.floor(between(1, 80))} ${pick(STREETS)}`,
+      type: type.key, typeLabel: type.label,
+      surface, rooms: type.rooms, units, floor,
+      price, daysOnline, priceDrops,
+      dpe, seller, worksPerM2: worksLevel,
+      features: [
+        rnd() < 0.4 ? 'Balcon' : null, rnd() < 0.3 ? 'Parking' : null,
+        rnd() < 0.2 ? 'Ascenseur' : null, rnd() < 0.15 ? 'Cave' : null,
+        rnd() < 0.1 ? 'Jardin' : null, worksLevel ? 'Travaux à prévoir' : null,
+      ].filter(Boolean),
+    });
+  }
+  return out;
+}
+
+module.exports = { CITIES, generateListings };
+
+};
+__mods["analyzer"]=function(module,exports,require){'use strict';
+const { CITIES } = require('./data');
+
+const cityIndex = Object.fromEntries(CITIES.map((c) => [c.name, c]));
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const round = (v, d = 0) => Math.round(v * 10 ** d) / 10 ** d;
+
+const TYPE_PRICE_FACTOR = { studio: 1.12, t2: 1, t3: 1, t4: 1, maison: 0.88, immeuble: 0.78 };
+const TYPE_RENT_FACTOR = { studio: 1.18, t2: 1.05, t3: 1, t4: 0.95, maison: 0.9, immeuble: 0.95 };
+
+function monthlyPayment(capital, annualRate, years) {
+  if (capital <= 0) return 0;
+  const r = annualRate / 100 / 12;
+  const n = years * 12;
+  return r === 0 ? capital / n : (capital * r) / (1 - Math.pow(1 + r, -n));
+}
+
+/**
+ * Analyse un bien. params : { apport (%), rate (%), years, gestion (bool) }
+ */
+function analyze(l, params = {}) {
+  const { apport = 10, rate = 3.8, years = 20, gestion = false } = params;
+  const city = cityIndex[l.city];
+
+  // --- Prix vs marché ---
+  const marketPxM2 = city.pxM2 * TYPE_PRICE_FACTOR[l.type];
+  const askPxM2 = l.price / l.surface;
+  const discount = (marketPxM2 - askPxM2) / marketPxM2; // >0 = moins cher que le marché
+
+  // --- Coût total d'acquisition ---
+  const notary = l.price * 0.075;
+  const works = l.worksPerM2 * l.surface;
+  const totalCost = l.price + notary + works;
+
+  // --- Loyers ---
+  const monthlyRent = l.surface * city.rentM2 * TYPE_RENT_FACTOR[l.type];
+  const vacancyRate = 0.02 + (1 - city.tension) * 0.1; // 2 % à 12 %
+  const taxeFonciere = monthlyRent * (0.6 + (1 - city.tension) * 0.5); // en mois de loyer / an
+  const nonRecoverable = monthlyRent * 12 * (l.type === 'immeuble' ? 0.1 : 0.06);
+  const gestionCost = gestion ? monthlyRent * 12 * 0.07 : 0;
+  const annualRentCollected = monthlyRent * 12 * (1 - vacancyRate);
+  const annualCharges = taxeFonciere + nonRecoverable + gestionCost;
+
+  const grossYield = ((monthlyRent * 12) / totalCost) * 100;
+  const netYield = ((annualRentCollected - annualCharges) / totalCost) * 100;
+
+  // --- Financement ---
+  const capital = Math.max(0, totalCost * (1 - apport / 100));
+  const payment = monthlyPayment(capital, rate, years);
+  const monthlyCashflow = annualRentCollected / 12 - annualCharges / 12 - payment;
+
+  // --- Négociation ---
+  let nego = 0;
+  const negoReasons = [];
+  const daysPts = clamp(l.daysOnline / 180, 0, 1) * 35;
+  nego += daysPts;
+  if (l.daysOnline > 90) negoReasons.push(`en ligne depuis ${l.daysOnline} jours`);
+  if (l.priceDrops) { nego += l.priceDrops * 9; negoReasons.push(`${l.priceDrops} baisse(s) de prix déjà`); }
+  if (discount < 0) { nego += clamp(-discount, 0, 0.2) * 100; negoReasons.push(`affiché ${round(-discount * 100)} % au-dessus du marché`); }
+  if (/Succession|Notaire/.test(l.seller)) { nego += 10; negoReasons.push('vendeur pressé (succession / notaire)'); }
+  if (['F', 'G'].includes(l.dpe)) { nego += 10; negoReasons.push(`DPE ${l.dpe} : argument de négociation (interdiction de louer à terme)`); }
+  nego = clamp(Math.round(nego), 0, 100);
+  const negoLabel = nego >= 60 ? 'Facile' : nego >= 35 ? 'Possible' : 'Difficile';
+  const negoDiscountPct = round(clamp((nego / 100) * 12, 0, 12), 1);
+  const offerPrice = Math.round((l.price * (1 - negoDiscountPct / 100)) / 500) * 500;
+
+  // --- Score d'opportunité (0-100) ---
+  const penalty = { E: 3, F: 10, G: 15 }[l.dpe] || 0;
+  const score = clamp(Math.round(
+    clamp((netYield - 2) / 6, 0, 1) * 38 +            // rendement net
+    clamp((discount + 0.1) / 0.3, 0, 1) * 24 +         // décote vs marché
+    clamp((monthlyCashflow + 200) / 400, 0, 1) * 14 +  // cash-flow
+    city.tension * 12 +                                 // demande locative
+    (nego / 100) * 12 +                                 // marge de négociation
+    clamp(city.trend / 3, -1, 1) * 2 + 2 - penalty
+  ), 0, 100);
+  const verdict = score >= 75 ? 'Excellente opportunité' : score >= 60 ? 'Intéressant' : score >= 45 ? 'À négocier' : 'À éviter';
+
+  // --- Commentaire explicatif ---
+  const pros = [];
+  const cons = [];
+  if (discount > 0.05) pros.push(`Prix au m² ${round(discount * 100)} % sous le marché local (${round(askPxM2)} € vs ${round(marketPxM2)} €).`);
+  if (discount < -0.05) cons.push(`Prix au m² ${round(-discount * 100)} % au-dessus du marché local.`);
+  if (netYield >= 6) pros.push(`Rendement net élevé : ${round(netYield, 1)} %.`);
+  else if (netYield < 3.5) cons.push(`Rendement net faible : ${round(netYield, 1)} %.`);
+  if (city.tension >= 0.8) pros.push('Forte demande locative dans le secteur.');
+  if (city.tension < 0.6) cons.push('Demande locative modérée : risque de vacance plus élevé.');
+  if (monthlyCashflow >= 0) pros.push(`Cash-flow positif (${round(monthlyCashflow)} €/mois) avec ce financement.`);
+  else cons.push(`Effort d'épargne de ${round(-monthlyCashflow)} €/mois avec ce financement.`);
+  if (works) cons.push(`Travaux estimés à ${round(works).toLocaleString('fr-FR')} € (intégrés au calcul).`);
+  if (['F', 'G'].includes(l.dpe)) cons.push(`DPE ${l.dpe} : rénovation énergétique à budgéter, location bientôt interdite.`);
+  if (city.trend < -1.5) pros.push(`Prix en baisse sur 12 mois (${city.trend} %) : bon moment pour négocier.`);
+  if (l.type === 'immeuble') pros.push(`Immeuble de ${l.units} lots : risque de vacance mutualisé.`);
+
+  return {
+    ...l,
+    analysis: {
+      marketPxM2: round(marketPxM2), askPxM2: round(askPxM2), discountPct: round(discount * 100, 1),
+      notary: round(notary), works: round(works), totalCost: round(totalCost),
+      monthlyRent: round(monthlyRent), vacancyPct: round(vacancyRate * 100, 1),
+      annualCharges: round(annualCharges),
+      grossYield: round(grossYield, 2), netYield: round(netYield, 2),
+      capital: round(capital), payment: round(payment), monthlyCashflow: round(monthlyCashflow),
+      negoScore: nego, negoLabel, negoDiscountPct, offerPrice, negoReasons,
+      score, verdict, pros, cons,
+    },
+  };
+}
+
+/** Synthèse par ville : rendement brut moyen indicatif d'un T2 type. */
+function sectorStats(listings) {
+  return CITIES.map((c) => {
+    const items = listings.filter((l) => l.city === c.name);
+    const avg = (f) => (items.length ? items.reduce((s, x) => s + f(x), 0) / items.length : null);
+    const grossRef = ((c.rentM2 * 12) / (c.pxM2 * 1.075)) * 100;
+    return {
+      city: c.name, dept: c.dept, region: c.region,
+      pxM2: c.pxM2, rentM2: c.rentM2, tension: c.tension, trend: c.trend,
+      grossYieldRef: round(grossRef, 2),
+      count: items.length,
+      avgScore: items.length ? round(avg((x) => x.analysis.score)) : null,
+    };
+  });
+}
+
+module.exports = { analyze, sectorStats };
+
+};
+__mods["api"]=function(module,exports,require){'use strict';
+// Logique d'API partagée : utilisée par le serveur Node et par la version autonome (navigateur).
+const { generateListings, CITIES } = require('./data');
+const { analyze, sectorStats } = require('./analyzer');
+
+const LISTINGS = generateListings(160);
+const num = (v, d) => (v === null || v === undefined || v === '' || isNaN(+v) ? d : +v);
+
+function simParams(q) {
+  return {
+    apport: num(q.get('apport'), 10), rate: num(q.get('rate'), 3.8),
+    years: num(q.get('years'), 20), gestion: q.get('gestion') === '1',
+  };
+}
+
+/** @returns {{status:number, body:object}} */
+function route(pathname, q) {
+  if (pathname === '/api/meta') {
+    return { status: 200, body: { cities: CITIES.map((c) => c.name).sort(), regions: [...new Set(CITIES.map((c) => c.region))].sort(), total: LISTINGS.length } };
+  }
+  const params = simParams(q);
+  if (pathname === '/api/sectors') {
+    return { status: 200, body: sectorStats(LISTINGS.map((l) => analyze(l, params))) };
+  }
+  if (pathname === '/api/listings') {
+    const text = (q.get('q') || '').toLowerCase().trim();
+    const type = q.get('type'), region = q.get('region'), nego = q.get('nego');
+    const maxPrice = num(q.get('maxPrice'), Infinity), minSurface = num(q.get('minSurface'), 0);
+    const minYield = num(q.get('minYield'), 0), minScore = num(q.get('minScore'), 0);
+    const items = LISTINGS.map((l) => analyze(l, params)).filter((l) => {
+      const a = l.analysis;
+      if (text && !`${l.city} ${l.dept} ${l.region} ${l.typeLabel}`.toLowerCase().includes(text)) return false;
+      if (type && l.type !== type) return false;
+      if (region && l.region !== region) return false;
+      if (l.price > maxPrice || l.surface < minSurface) return false;
+      if (a.netYield < minYield || a.score < minScore) return false;
+      if (nego && a.negoLabel !== nego) return false;
+      return true;
+    });
+    const sorts = {
+      score: (a, b) => b.analysis.score - a.analysis.score,
+      yield: (a, b) => b.analysis.netYield - a.analysis.netYield,
+      price: (a, b) => a.price - b.price,
+      discount: (a, b) => b.analysis.discountPct - a.analysis.discountPct,
+      nego: (a, b) => b.analysis.negoScore - a.analysis.negoScore,
+    };
+    items.sort(sorts[q.get('sort')] || sorts.score);
+    return { status: 200, body: { count: items.length, items: items.slice(0, 60) } };
+  }
+  const m = pathname.match(/^\/api\/listing\/(\d+)$/);
+  if (m) {
+    const l = LISTINGS.find((x) => x.id === +m[1]);
+    return l ? { status: 200, body: analyze(l, params) } : { status: 404, body: { error: 'Introuvable' } };
+  }
+  return { status: 404, body: { error: 'Route inconnue' } };
+}
+
+module.exports = { route, LISTINGS };
+
+};
+var api=__req('api');
+window.fetch=function(u){var x=new URL(u,'http://x');var r=api.route(x.pathname,x.searchParams);
+  return Promise.resolve({ok:r.status<400,status:r.status,json:function(){return Promise.resolve(r.body);}});};
+})();
+</script>
+<script>
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const eur = (n) => Math.round(n).toLocaleString('fr-FR') + ' €';
+const pct = (n, d = 1) => n.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d }) + ' %';
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const scoreClass = (s) => (s >= 75 ? 's-good' : s >= 60 ? 's-ok' : s >= 45 ? 's-mid' : 's-bad');
+const negoClass = (l) => ({ Facile: 's-good', Possible: 's-ok', Difficile: 's-bad' }[l]);
+
+const form = $('#filters');
+let items = [];
+
+function params() {
+  const p = new URLSearchParams();
+  new FormData(form).forEach((v, k) => { if (v !== '') p.set(k, v); });
+  return p;
+}
+
+async function loadListings() {
+  const res = await fetch('/api/listings?' + params());
+  const data = await res.json();
+  items = data.items;
+  $('#count').textContent = `${data.count} bien(s) trouvé(s)` + (data.count > items.length ? ` — ${items.length} meilleurs affichés` : '');
+  $('#grid').innerHTML = items.map(card).join('') || '<p class="muted">Aucun bien ne correspond à ces critères.</p>';
+}
+
+function card(l) {
+  const a = l.analysis;
+  const title = l.type === 'immeuble' ? `Immeuble de ${l.units} lots` : `${l.typeLabel} ${l.surface} m²`;
+  return `<button class="card" data-id="${l.id}">
+    <div class="card__head">
+      <div><h3>${esc(title)}</h3><div class="where">${esc(l.city)} (${esc(l.dept)}) · ${esc(l.region)}</div></div>
+      <div class="score ${scoreClass(a.score)}" title="Score IA">${a.score}</div>
+    </div>
+    <div class="price">${eur(l.price)} <small>${eur(a.askPxM2)}/m²</small></div>
+    <div class="metrics">
+      <div class="metric"><b>${pct(a.netYield)}</b><span>Rdt net</span></div>
+      <div class="metric"><b>${a.discountPct > 0 ? '−' : '+'}${pct(Math.abs(a.discountPct), 0)}</b><span>vs marché</span></div>
+      <div class="metric"><b>${a.monthlyCashflow >= 0 ? '+' : ''}${eur(a.monthlyCashflow)}</b><span>Cash-flow/mois</span></div>
+    </div>
+    <div class="tags">
+      <span class="tag ${negoClass(a.negoLabel)}">Négociation : ${a.negoLabel}</span>
+      <span class="tag neutral">DPE ${l.dpe}</span>
+      <span class="tag neutral">${l.daysOnline} j en ligne</span>
+    </div>
+    <div class="verdict">${a.verdict}</div>
+  </button>`;
+}
+
+function modal(l) {
+  const a = l.analysis;
+  const title = l.type === 'immeuble' ? `Immeuble de rapport — ${l.units} lots, ${l.surface} m²` : `${l.typeLabel} ${l.surface} m²`;
+  const list = (arr, cls) => arr.length ? `<ul class="list ${cls}">${arr.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : '<p class="muted">Rien de particulier.</p>';
+  $('#modalBody').innerHTML = `<div class="m">
+    <div class="m__top">
+      <div><h2>${esc(title)}</h2><div class="muted">${esc(l.address)}, ${esc(l.city)} (${esc(l.dept)}) · ${esc(l.seller)}${l.floor !== null ? ` · étage ${l.floor}` : ''}</div>
+        <div class="tags" style="margin-top:8px">${l.features.map((f) => `<span class="tag neutral">${esc(f)}</span>`).join('')}</div></div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="score ${scoreClass(a.score)}">${a.score}</div>
+        <button class="m__close" aria-label="Fermer">×</button>
+      </div>
+    </div>
+    <div class="box"><h4>Verdict de l'IA</h4><div class="verdict" style="font-size:1.15rem">${a.verdict}</div></div>
+    <div class="two">
+      <div class="box"><h4>✔ Points forts</h4>${list(a.pros, 'pro')}</div>
+      <div class="box"><h4>⚠ Points de vigilance</h4>${list(a.cons, 'con')}</div>
+    </div>
+    <div class="two">
+      <div class="box"><h4>Rentabilité</h4><div class="rows">
+        <span>Prix affiché</span><b>${eur(l.price)}</b>
+        <span>Frais de notaire (7,5 %)</span><b>${eur(a.notary)}</b>
+        <span>Travaux</span><b>${eur(a.works)}</b>
+        <span><b>Coût total</b></span><b>${eur(a.totalCost)}</b>
+        <span>Loyer estimé / mois</span><b>${eur(a.monthlyRent)}</b>
+        <span>Vacance estimée</span><b>${pct(a.vacancyPct)}</b>
+        <span>Charges annuelles</span><b>${eur(a.annualCharges)}</b>
+        <span>Rendement brut</span><b>${pct(a.grossYield, 2)}</b>
+        <span>Rendement net</span><b>${pct(a.netYield, 2)}</b>
+      </div></div>
+      <div class="box"><h4>Financement</h4><div class="rows">
+        <span>Emprunt</span><b>${eur(a.capital)}</b>
+        <span>Mensualité</span><b>${eur(a.payment)}</b>
+        <span>Cash-flow mensuel</span><b>${a.monthlyCashflow >= 0 ? '+' : ''}${eur(a.monthlyCashflow)}</b>
+      </div>
+      <h4 style="margin-top:14px">Prix vs marché</h4><div class="rows">
+        <span>Ce bien</span><b>${eur(a.askPxM2)}/m²</b>
+        <span>Marché local</span><b>${eur(a.marketPxM2)}/m²</b>
+        <span>Écart</span><b>${a.discountPct > 0 ? '−' : '+'}${pct(Math.abs(a.discountPct))}</b>
+      </div></div>
+    </div>
+    <div class="box"><h4>Se positionner — négociation : <span class="tag ${negoClass(a.negoLabel)}">${a.negoLabel}</span> (${a.negoScore}/100)</h4>
+      <div class="bar"><i style="width:${a.negoScore}%"></i></div>
+      <p style="margin:6px 0">Offre conseillée : <span class="offer">${eur(a.offerPrice)}</span> <span class="muted">(−${pct(a.negoDiscountPct)} sur le prix affiché)</span></p>
+      ${a.negoReasons.length ? `<p class="muted" style="margin:0">Leviers : ${a.negoReasons.map(esc).join(' · ')}.</p>` : '<p class="muted" style="margin:0">Peu de leviers identifiés : le vendeur a peu de raisons de baisser.</p>'}
+    </div>
+  </div>`;
+  $('#modal').showModal();
+}
+
+/* ---------- événements ---------- */
+let t;
+form.addEventListener('input', () => { clearTimeout(t); t = setTimeout(loadListings, 250); });
+form.addEventListener('submit', (e) => e.preventDefault());
+$('#grid').addEventListener('click', (e) => {
+  const c = e.target.closest('.card');
+  if (c) modal(items.find((x) => x.id === +c.dataset.id));
+});
+$('#modal').addEventListener('click', (e) => {
+  if (e.target === $('#modal') || e.target.closest('.m__close')) $('#modal').close();
+});
+
+/* ---------- secteurs ---------- */
+let sectors = [], sortKey = 'grossYieldRef', sortDir = -1;
+async function loadSectors() {
+  sectors = await (await fetch('/api/sectors?' + params())).json();
+  renderSectors();
+}
+function renderSectors() {
+  const rows = [...sectors].sort((a, b) => {
+    const x = a[sortKey] ?? -Infinity, y = b[sortKey] ?? -Infinity;
+    return (typeof x === 'string' ? x.localeCompare(y) : x - y) * sortDir;
+  });
+  $('#sectors tbody').innerHTML = rows.map((s) => `<tr data-city="${esc(s.city)}">
+    <td>${esc(s.city)} <span class="muted">(${esc(s.dept)})</span></td><td>${eur(s.pxM2)}</td><td>${s.rentM2.toLocaleString('fr-FR')} €</td>
+    <td><b>${pct(s.grossYieldRef)}</b></td><td>${Math.round(s.tension * 100)} %</td>
+    <td style="color:var(${s.trend >= 0 ? '--good' : '--bad'})">${s.trend > 0 ? '+' : ''}${s.trend.toLocaleString('fr-FR')} %</td>
+    <td>${s.avgScore ?? '—'}</td></tr>`).join('');
+}
+$('#sectors thead').addEventListener('click', (e) => {
+  const th = e.target.closest('th');
+  if (!th) return;
+  sortDir = sortKey === th.dataset.k ? -sortDir : -1;
+  sortKey = th.dataset.k;
+  renderSectors();
+});
+$('#sectors tbody').addEventListener('click', (e) => {
+  const tr = e.target.closest('tr');
+  if (!tr) return;
+  form.q.value = tr.dataset.city;
+  show('annonces');
+  loadListings();
+});
+
+/* ---------- onglets ---------- */
+function show(view) {
+  document.querySelectorAll('.tab').forEach((b) => b.classList.toggle('is-on', b.dataset.view === view));
+  $('#view-annonces').hidden = view !== 'annonces';
+  $('#view-secteurs').hidden = view !== 'secteurs';
+  if (view === 'secteurs') loadSectors();
+}
+document.querySelector('.tabs').addEventListener('click', (e) => {
+  const b = e.target.closest('.tab');
+  if (b) show(b.dataset.view);
+});
+
+/* ---------- init ---------- */
+(async () => {
+  const meta = await (await fetch('/api/meta')).json();
+  $('#regionSel').insertAdjacentHTML('beforeend', meta.regions.map((r) => `<option>${esc(r)}</option>`).join(''));
+  loadListings();
+})();
+
+</script>
