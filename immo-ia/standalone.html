@@ -92,6 +92,11 @@ ul.list li{margin:3px 0}
 .foot{padding-block:30px 50px;color:var(--muted);font-size:.8rem}
 @media(max-width:560px){.two{grid-template-columns:1fr}.f--wide{grid-column:auto}}
 
+.card__open{all:unset;cursor:pointer;font:inherit;font-weight:700;color:inherit}
+.card__open:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.ext{color:var(--brand);font-weight:700;font-size:.85rem;text-decoration:none}
+.ext:hover{text-decoration:underline}
+
 body{background:var(--bg);color:var(--ink);padding-block:0}
 </style>
 <header class="top">
@@ -571,12 +576,22 @@ async function loadListings() {
   $('#grid').innerHTML = items.map(card).join('') || '<p class="muted">Aucun bien ne correspond à ces critères.</p>';
 }
 
+/** Lien vers l'annonce chez le prestataire. Les annonces de démonstration n'ont pas de page réelle :
+ *  on ouvre alors une recherche équivalente (ville, budget) chez Leboncoin. Dès qu'une annonce réelle
+ *  porte un champ `url`, c'est ce lien direct qui est utilisé. */
+function providerLink(l) {
+  if (l.url) return { href: l.url, label: "Voir l'annonce chez le prestataire" };
+  const q = new URLSearchParams({ category: '9', text: l.city, price_max: String(Math.round(l.price * 1.05)) });
+  return { href: 'https://www.leboncoin.fr/recherche?' + q, label: 'Biens similaires sur Leboncoin' };
+}
+const linkHtml = (l) => { const p = providerLink(l); return `<a class="ext" href="${esc(p.href)}" target="_blank" rel="noopener noreferrer">${esc(p.label)} ↗</a>`; };
+
 function card(l) {
   const a = l.analysis;
   const title = l.type === 'immeuble' ? `Immeuble de ${l.units} lots` : `${l.typeLabel} ${l.surface} m²`;
-  return `<button class="card" data-id="${l.id}">
+  return `<article class="card" data-id="${l.id}">
     <div class="card__head">
-      <div><h3>${esc(title)}</h3><div class="where">${esc(l.city)} (${esc(l.dept)}) · ${esc(l.region)}</div></div>
+      <div><h3><button class="card__open" data-id="${l.id}">${esc(title)}</button></h3><div class="where">${esc(l.city)} (${esc(l.dept)}) · ${esc(l.region)}</div></div>
       <div class="score ${scoreClass(a.score)}" title="Score IA">${a.score}</div>
     </div>
     <div class="price">${eur(l.price)} <small>${eur(a.askPxM2)}/m²</small></div>
@@ -591,7 +606,8 @@ function card(l) {
       <span class="tag neutral">${l.daysOnline} j en ligne</span>
     </div>
     <div class="verdict">${a.verdict}</div>
-  </button>`;
+    ${linkHtml(l)}
+  </article>`;
 }
 
 function modal(l) {
@@ -635,6 +651,7 @@ function modal(l) {
         <span>Écart</span><b>${a.discountPct > 0 ? '−' : '+'}${pct(Math.abs(a.discountPct))}</b>
       </div></div>
     </div>
+    <div class="box"><h4>Voir le bien en ligne</h4><p style="margin:0">${linkHtml(l)}</p>${l.url ? '' : '<p class="muted" style="margin:6px 0 0">Annonce de démonstration : le lien ouvre une recherche équivalente (ville, budget).</p>'}</div>
     <div class="box"><h4>Se positionner — négociation : <span class="tag ${negoClass(a.negoLabel)}">${a.negoLabel}</span> (${a.negoScore}/100)</h4>
       <div class="bar"><i style="width:${a.negoScore}%"></i></div>
       <p style="margin:6px 0">Offre conseillée : <span class="offer">${eur(a.offerPrice)}</span> <span class="muted">(−${pct(a.negoDiscountPct)} sur le prix affiché)</span></p>
@@ -649,6 +666,7 @@ let t;
 form.addEventListener('input', () => { clearTimeout(t); t = setTimeout(loadListings, 250); });
 form.addEventListener('submit', (e) => e.preventDefault());
 $('#grid').addEventListener('click', (e) => {
+  if (e.target.closest('a')) return;
   const c = e.target.closest('.card');
   if (c) modal(items.find((x) => x.id === +c.dataset.id));
 });
