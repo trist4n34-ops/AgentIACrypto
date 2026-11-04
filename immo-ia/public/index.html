@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ImmoIA — Investissement immobilier</title>
+  <meta name="description" content="Trouvez les meilleures annonces immobilières en France, analysées par l'IA : rentabilité, décote, facilité de négociation." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top__in">
+      <a class="logo" href="#"><span class="logo__mark">◆</span> ImmoIA</a>
+      <nav class="tabs" role="tablist">
+        <button class="tab is-on" data-view="annonces" role="tab">Annonces</button>
+        <button class="tab" data-view="secteurs" role="tab">Secteurs</button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <h1>Quel bien acheter, <em>vraiment</em> ?</h1>
+      <p>Toute la France. Chaque annonce est analysée : prix vs marché, rentabilité nette, cash-flow, et marge de négociation.</p>
+      <p class="demo">Mode démonstration — annonces et données de marché fictives/indicatives.</p>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <!-- ========== ANNONCES ========== -->
+    <div id="view-annonces">
+      <form id="filters" class="panel filters">
+        <label class="f f--wide">Ville, département ou région
+          <input name="q" type="search" placeholder="Lyon, 69, Occitanie…" autocomplete="off" />
+        </label>
+        <label class="f">Type
+          <select name="type">
+            <option value="">Tous</option><option value="studio">Studio</option><option value="t2">T2</option>
+            <option value="t3">T3</option><option value="t4">T4</option><option value="maison">Maison</option>
+            <option value="immeuble">Immeuble de rapport</option>
+          </select>
+        </label>
+        <label class="f">Région
+          <select name="region" id="regionSel"><option value="">Toute la France</option></select>
+        </label>
+        <label class="f">Budget max (€)
+          <input name="maxPrice" type="number" min="0" step="10000" placeholder="250000" />
+        </label>
+        <label class="f">Surface min (m²)
+          <input name="minSurface" type="number" min="0" placeholder="20" />
+        </label>
+        <label class="f">Rendement net min (%)
+          <input name="minYield" type="number" min="0" step="0.5" placeholder="5" />
+        </label>
+        <label class="f">Négociation
+          <select name="nego"><option value="">Toutes</option><option>Facile</option><option>Possible</option><option>Difficile</option></select>
+        </label>
+        <label class="f">Trier par
+          <select name="sort">
+            <option value="score">Score IA</option><option value="yield">Rendement net</option>
+            <option value="discount">Décote vs marché</option><option value="nego">Facilité de négociation</option>
+            <option value="price">Prix croissant</option>
+          </select>
+        </label>
+        <details class="f f--wide sim">
+          <summary>Simulation de financement</summary>
+          <div class="sim__grid">
+            <label>Apport (%)<input name="apport" type="number" value="10" min="0" max="100" /></label>
+            <label>Taux (%)<input name="rate" type="number" value="3.8" step="0.1" min="0" /></label>
+            <label>Durée (ans)<input name="years" type="number" value="20" min="5" max="30" /></label>
+            <label class="chk"><input name="gestion" type="checkbox" value="1" /> Gestion locative (7 %)</label>
+          </div>
+        </details>
+      </form>
+
+      <p id="count" class="count" aria-live="polite"></p>
+      <div id="grid" class="grid"></div>
+    </div>
+
+    <!-- ========== SECTEURS ========== -->
+    <div id="view-secteurs" hidden>
+      <div class="panel">
+        <h2>Rendement par ville</h2>
+        <p class="muted">Rendement brut de référence = loyer moyen annuel / prix moyen (frais de notaire inclus). Cliquez sur une ville pour voir ses annonces.</p>
+        <div class="tablewrap">
+          <table id="sectors">
+            <thead><tr>
+              <th data-k="city">Ville</th><th data-k="pxM2">Prix €/m²</th><th data-k="rentM2">Loyer €/m²</th>
+              <th data-k="grossYieldRef">Rdt brut</th><th data-k="tension">Demande</th><th data-k="trend">Prix 12 mois</th><th data-k="avgScore">Score moy.</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <dialog id="modal"><div id="modalBody"></div></dialog>
+
+  <footer class="wrap foot">
+    ImmoIA est un outil d'aide à la décision, pas un conseil en investissement. Données de démonstration.
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
