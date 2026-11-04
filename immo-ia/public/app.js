@@ -145,6 +145,7 @@ function show(view) {
   document.querySelectorAll('.tab').forEach((b) => b.classList.toggle('is-on', b.dataset.view === view));
   $('#view-annonces').hidden = view !== 'annonces';
   $('#view-secteurs').hidden = view !== 'secteurs';
+  $('#view-loyers').hidden = view !== 'loyers';
   if (view === 'secteurs') loadSectors();
 }
 document.querySelector('.tabs').addEventListener('click', (e) => {
@@ -152,9 +153,48 @@ document.querySelector('.tabs').addEventListener('click', (e) => {
   if (b) show(b.dataset.view);
 });
 
+/* ---------- loyers réels (base de données de la version web) ---------- */
+const median = (arr) => { const s = [...arr].sort((x, y) => x - y); const m = s.length >> 1; return s.length ? (s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2) : null; };
+let modelRentM2 = null;
+
+function renderRentals(rows) {
+  const apts = rows.filter((r) => r.kind === 'appartement' && r.surface > 0);
+  const perM2 = apts.map((r) => r.rent / r.surface);
+  const med = median(perM2);
+  const stat = (v, l) => `<div class="metric"><b>${v}</b><span>${l}</span></div>`;
+  $('#rentalsStats').innerHTML =
+    stat(rows.length, 'annonces enregistrées') +
+    stat(med === null ? '—' : med.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + ' €', 'loyer médian /m² (appartements)') +
+    stat(modelRentM2 === null ? '—' : modelRentM2.toLocaleString('fr-FR') + ' €', 'hypothèse du modèle (Montpellier)');
+  $('#rentalsTable tbody').innerHTML = rows.map((r) => {
+    const m2 = r.kind === 'appartement' && r.surface > 0 ? (r.rent / r.surface).toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + ' €' : '—';
+    return `<tr><td>${esc(r.seenAt || '')}</td><td>${esc(r.label || r.kind || '')}</td><td>${esc(r.district || '')}, ${esc(r.city || '')}</td>
+      <td>${r.surface ? esc(r.surface) + ' m²' : '—'}</td><td>${eur(r.rent)} <span class="muted">${r.chargesIncluded ? 'CC' : 'HC'}</span></td><td>${m2}</td></tr>`;
+  }).join('') || '<tr><td colspan="6" class="muted" style="text-align:left">Aucune annonce enregistrée pour le moment.</td></tr>';
+}
+
+async function initRentals() {
+  const note = $('#rentalsNote');
+  let db = null;
+  try { db = window.claude ? await window.claude.use('db') : null; } catch (e) { db = null; }
+  if (!db) { note.textContent = 'La base de données est disponible uniquement sur la version web publiée.'; renderRentals([]); return; }
+  try { const s = await (await fetch('/api/sectors')).json(); modelRentM2 = (s.find((x) => x.city === 'Montpellier') || {}).rentM2 ?? null; } catch (e) { /* facultatif */ }
+  note.textContent = 'Chargement de la base…';
+  const timer = setTimeout(() => { note.textContent = 'La base ne répond pas encore. Les données affichées peuvent être anciennes.'; }, 10000);
+  db.collection('rentals').orderBy('seenAt', 'desc').limit(500).onSnapshot(
+    (snap) => {
+      clearTimeout(timer);
+      note.textContent = '';
+      renderRentals(snap.docs.map((d) => d.data()));
+    },
+    () => { clearTimeout(timer); note.textContent = 'Lecture de la base impossible pour le moment.'; }
+  );
+}
+
 /* ---------- init ---------- */
 (async () => {
   const meta = await (await fetch('/api/meta')).json();
   $('#regionSel').insertAdjacentHTML('beforeend', meta.regions.map((r) => `<option>${esc(r)}</option>`).join(''));
   loadListings();
+  initRentals();
 })();

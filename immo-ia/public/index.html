@@ -14,6 +14,7 @@
       <nav class="tabs" role="tablist">
         <button class="tab is-on" data-view="annonces" role="tab">Annonces</button>
         <button class="tab" data-view="secteurs" role="tab">Secteurs</button>
+        <button class="tab" data-view="loyers" role="tab">Loyers réels</button>
       </nav>
     </div>
   </header>
@@ -88,6 +89,22 @@
               <th data-k="city">Ville</th><th data-k="pxM2">Prix €/m²</th><th data-k="rentM2">Loyer €/m²</th>
               <th data-k="grossYieldRef">Rdt brut</th><th data-k="tension">Demande</th><th data-k="trend">Prix 12 mois</th><th data-k="avgScore">Score moy.</th>
             </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== LOYERS RÉELS (base de données) ========== -->
+    <div id="view-loyers" hidden>
+      <div class="panel">
+        <h2>Loyers réels observés</h2>
+        <p class="muted">Annonces de location réelles, extraites des alertes e-mail SeLoger et enregistrées dans la base de données. Elles servent à vérifier les loyers utilisés par le modèle.</p>
+        <p id="rentalsNote" class="muted" aria-live="polite"></p>
+        <div id="rentalsStats" class="metrics"></div>
+        <div class="tablewrap">
+          <table id="rentalsTable">
+            <thead><tr><th>Date</th><th>Bien</th><th>Secteur</th><th>Surface</th><th>Loyer</th><th>€/m²</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
