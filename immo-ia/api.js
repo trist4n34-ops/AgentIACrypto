@@ -3,7 +3,7 @@
 const { generateListings, CITIES } = require('./data');
 const { analyze, sectorStats } = require('./analyzer');
 
-const LISTINGS = generateListings(160);
+const LISTINGS = generateListings(220);
 const num = (v, d) => (v === null || v === undefined || v === '' || isNaN(+v) ? d : +v);
 
 function simParams(q) {
@@ -24,10 +24,11 @@ function route(pathname, q) {
   }
   if (pathname === '/api/listings') {
     const text = (q.get('q') || '').toLowerCase().trim();
+    const zone = q.get('zone') || 'montpellier-first';
     const type = q.get('type'), region = q.get('region'), nego = q.get('nego');
     const maxPrice = num(q.get('maxPrice'), Infinity), minSurface = num(q.get('minSurface'), 0);
     const minYield = num(q.get('minYield'), 0), minScore = num(q.get('minScore'), 0);
-    const items = LISTINGS.map((l) => analyze(l, params)).filter((l) => {
+    let items = LISTINGS.map((l) => analyze(l, params)).filter((l) => {
       const a = l.analysis;
       if (text && !`${l.city} ${l.dept} ${l.region} ${l.typeLabel}`.toLowerCase().includes(text)) return false;
       if (type && l.type !== type) return false;
@@ -35,6 +36,7 @@ function route(pathname, q) {
       if (l.price > maxPrice || l.surface < minSurface) return false;
       if (a.netYield < minYield || a.score < minScore) return false;
       if (nego && a.negoLabel !== nego) return false;
+      if (zone === 'montpellier' && !l.metro) return false;
       return true;
     });
     const sorts = {
@@ -46,6 +48,7 @@ function route(pathname, q) {
       nego: (a, b) => b.analysis.negoScore - a.analysis.negoScore,
     };
     items.sort(sorts[q.get('sort')] || sorts.score);
+    if (zone === 'montpellier-first') items = [...items.filter((l) => l.metro), ...items.filter((l) => !l.metro)];
     return { status: 200, body: { count: items.length, items: items.slice(0, 60) } };
   }
   const m = pathname.match(/^\/api\/listing\/(\d+)$/);

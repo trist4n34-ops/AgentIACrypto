@@ -5,6 +5,7 @@
  * tension = demande locative (0 faible → 1 très forte), trend = évolution prix 12 mois (%).
  * À remplacer par des sources officielles (DVF, observatoires des loyers) pour un usage réel.
  */
+const METRO = ['Castelnau-le-Lez', 'Lattes', 'Pérols', 'Juvignac', 'Saint-Jean-de-Védas', 'Mauguio'];
 const CITIES = [
   ['Paris', '75', 'Île-de-France', 10500, 31, 0.98, -3.5],
   ['Lyon', '69', 'Auvergne-Rhône-Alpes', 5300, 15.5, 0.9, -1.0],
@@ -41,8 +42,16 @@ const CITIES = [
   ['Roubaix', '59', 'Hauts-de-France', 1800, 11.5, 0.7, 1.5],
   ['Bayonne', '64', 'Nouvelle-Aquitaine', 4000, 14.5, 0.8, 0.0],
   ['La Rochelle', '17', 'Nouvelle-Aquitaine', 4600, 14, 0.8, -1.0],
+  // Métropole de Montpellier (valeurs indicatives, loyer de Saint-Jean-de-Védas calé sur les alertes réelles)
+  ['Castelnau-le-Lez', '34', 'Occitanie', 4100, 14.5, 0.85, 0.0],
+  ['Lattes', '34', 'Occitanie', 3900, 14, 0.8, 0.0],
+  ['Pérols', '34', 'Occitanie', 3300, 13.5, 0.75, 0.5],
+  ['Juvignac', '34', 'Occitanie', 3800, 13.5, 0.8, 0.0],
+  ['Saint-Jean-de-Védas', '34', 'Occitanie', 3900, 15.5, 0.85, 0.0],
+  ['Mauguio', '34', 'Occitanie', 3500, 13, 0.7, 0.5],
 ].map(([name, dept, region, pxM2, rentM2, tension, trend]) => ({
   name, dept, region, pxM2, rentM2, tension, trend,
+  metro: name === 'Montpellier' || METRO.includes(name),
 }));
 
 // Générateur pseudo-aléatoire déterministe (annonces stables entre redémarrages)
@@ -67,14 +76,16 @@ const SELLERS = ['Particulier', 'Agence', 'Agence', 'Agence', 'Succession', 'Not
 const DPE = ['A', 'B', 'C', 'C', 'D', 'D', 'D', 'E', 'E', 'F', 'G'];
 const STREETS = ['rue de la République', 'avenue Jean Jaurès', 'rue Victor Hugo', 'boulevard Gambetta', 'rue Pasteur', 'place du Marché', 'rue des Lilas', 'avenue de la Gare', 'rue Voltaire', 'cours Lafayette'];
 
-function generateListings(n = 160) {
+function generateListings(n = 220) {
   const rnd = mulberry32(20241104);
   const pick = (arr) => arr[Math.floor(rnd() * arr.length)];
   const between = (a, b) => a + rnd() * (b - a);
   const bag = TYPES.flatMap((t) => Array(t.w).fill(t));
   const out = [];
+  // Montpellier et sa métropole pèsent 3 fois plus dans l'échantillon
+  const cityBag = CITIES.flatMap((c) => Array(c.metro ? 3 : 1).fill(c));
   for (let i = 0; i < n; i++) {
-    const city = CITIES[Math.floor(rnd() * CITIES.length)];
+    const city = cityBag[Math.floor(rnd() * cityBag.length)];
     const type = pick(bag);
     const surface = Math.round(between(type.surf[0], type.surf[1]));
     const dpe = pick(DPE);
@@ -92,7 +103,7 @@ function generateListings(n = 160) {
     const floor = ['studio', 't2', 't3', 't4'].includes(type.key) ? Math.floor(rnd() * 7) : null;
     out.push({
       id: i + 1,
-      city: city.name, dept: city.dept, region: city.region,
+      city: city.name, dept: city.dept, region: city.region, metro: city.metro,
       address: `${Math.floor(between(1, 80))} ${pick(STREETS)}`,
       type: type.key, typeLabel: type.label,
       surface, rooms: type.rooms, units, floor,
