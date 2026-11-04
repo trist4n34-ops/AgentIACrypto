@@ -1,0 +1,14 @@
+{
+  "name": "immoia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Analyse d'annonces immobilières pour investisseurs : prix vs marché, rendement, cash-flow, négociation.",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test \"test/*.test.js\"",
+    "daily": "node scripts/daily.js",
+    "dvf": "node connectors/dvf.js",
+    "build": "node build.js"
+  },
+  "engines": { "node": ">=20" }
+}

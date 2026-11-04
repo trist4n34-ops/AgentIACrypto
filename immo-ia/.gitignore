@@ -1,0 +1,3 @@
+data/*
+!data/market.json
+node_modules/

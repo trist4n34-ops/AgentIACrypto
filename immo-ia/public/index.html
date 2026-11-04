@@ -23,7 +23,7 @@
     <div class="wrap">
       <h1>Quel bien acheter, <em>vraiment</em> ?</h1>
       <p>Toute la France. Chaque annonce est analysée : prix vs marché, rentabilité nette, cash-flow, et marge de négociation.</p>
-      <p class="demo">Mode démonstration — annonces et données de marché fictives/indicatives.</p>
+      <p class="demo" id="heroNote"></p>
     </div>
   </section>
 
@@ -36,6 +36,9 @@
         </label>
         <label class="f">Zone
           <select name="zone"><option value="montpellier-first">Montpellier d'abord</option><option value="montpellier">Montpellier uniquement</option><option value="all">Toute la France</option></select>
+        </label>
+        <label class="f">Source des annonces
+          <select name="source"><option value="">Auto (réelles si disponibles)</option><option value="real">Réelles uniquement</option><option value="demo">Démonstration</option><option value="all">Réelles + démonstration</option></select>
         </label>
         <label class="f">Type
           <select name="type">
@@ -66,6 +69,10 @@
             <option value="price">Prix croissant</option>
           </select>
         </label>
+        <label class="f">Alerte : score au moins
+          <input name="alertMin" type="number" min="0" max="100" placeholder="75" />
+        </label>
+        <label class="f f--check"><input name="favOnly" type="checkbox" value="1" /> Favoris seulement</label>
         <details class="f f--wide sim">
           <summary>Simulation de financement</summary>
           <div class="sim__grid">
@@ -77,7 +84,13 @@
         </details>
       </form>
 
-      <p id="count" class="count" aria-live="polite"></p>
+      <p id="sourceNote" class="banner" hidden></p>
+      <p id="alertNote" class="banner banner--alert" hidden aria-live="polite"></p>
+      <div class="actions">
+        <p id="count" class="count" aria-live="polite"></p>
+        <button type="button" class="btn" id="btnCompare" disabled>Comparer (0)</button>
+        <button type="button" class="btn" id="btnExport">Exporter en CSV</button>
+      </div>
       <div id="grid" class="grid"></div>
     </div>
 

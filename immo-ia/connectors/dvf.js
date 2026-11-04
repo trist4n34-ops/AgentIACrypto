@@ -18,14 +18,14 @@ const DEFAULT_COMMUNES = [
   ['34', '34154', 'Mauguio'],
 ];
 
-function parseCsv(text) {
+function parseCsv(text, sep = ',') {
   const rows = []; let row = [], cell = '', q = false;
   for (let i = 0; i < text.length; i++) {
     const c = text[i];
     if (q) {
       if (c === '"' && text[i + 1] === '"') { cell += '"'; i++; } else if (c === '"') q = false; else cell += c;
     } else if (c === '"') q = true;
-    else if (c === ',') { row.push(cell); cell = ''; }
+    else if (c === sep) { row.push(cell); cell = ''; }
     else if (c === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
     else if (c !== '\r') cell += c;
   }
@@ -74,17 +74,21 @@ function download(url) {
 }
 
 async function sync(year, communes = DEFAULT_COMMUNES, outFile = path.join(__dirname, '..', 'data', 'market.json')) {
-  const out = { source: 'DVF (data.gouv.fr)', year, updatedAt: new Date().toISOString().slice(0, 10), cities: {} };
+  let previous = null;
+  try { previous = JSON.parse(fs.readFileSync(outFile, 'utf8')); } catch (e) { previous = null; }
+  const out = { source: 'DVF (data.gouv.fr)', year, updatedAt: new Date().toISOString().slice(0, 10), cities: { ...((previous && previous.cities) || {}) } };
+  let okCount = 0;
   for (const [dept, insee, name] of communes) {
     try {
       const agg = aggregate(await download(`https://files.data.gouv.fr/geo-dvf/latest/csv/${year}/communes/${dept}/${insee}.csv`));
       out.cities[name] = { insee, ...agg };
+      okCount++;
       console.log(name, agg.apt ? `appart. ${agg.apt.medianM2} €/m² (${agg.apt.count} ventes)` : 'pas assez de ventes');
     } catch (e) { console.error(name, '→', e.message); }
   }
-  fs.mkdirSync(path.dirname(outFile), { recursive: true });
-  fs.writeFileSync(outFile, JSON.stringify(out, null, 2));
-  return out;
+  // On n'écrase jamais de bonnes données par un échec total : sans aucune commune lue, l'ancien fichier reste.
+  if (okCount > 0) { fs.mkdirSync(path.dirname(outFile), { recursive: true }); fs.writeFileSync(outFile, JSON.stringify(out, null, 2)); }
+  return { ...out, okCount };
 }
 
 module.exports = { parseCsv, aggregate, sync, DEFAULT_COMMUNES };

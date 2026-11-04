@@ -16,10 +16,11 @@ ${body}
 (function(){
 var __mods={},__cache={};
 function __req(n){n=n.replace(/^\\.\\//,'').replace(/\\.js$/,'');if(!__cache[n]){var m={exports:{}};__cache[n]=m;__mods[n](m,m.exports,__req);}return __cache[n].exports;}
+${mod('config', read('config.js'))}
 ${mod('data', read('data.js'))}
 ${mod('analyzer', read('analyzer.js'))}
 ${mod('api', read('api.js'))}
-${fs.existsSync(path.join(__dirname, 'data/market.json')) ? '__mods["market"]=function(module){module.exports=' + read('data/market.json') + ';};' : ''}
+${['market', 'listings', 'rentals'].filter((n) => fs.existsSync(path.join(__dirname, 'data', n + '.json'))).map((n) => '__mods[' + JSON.stringify(n) + ']=function(module){module.exports=' + read('data/' + n + '.json') + ';};').join('\n')}
 var api=__req('api');
 window.fetch=function(u){var x=new URL(u,'http://x');var r=api.route(x.pathname,x.searchParams);
   return Promise.resolve({ok:r.status<400,status:r.status,json:function(){return Promise.resolve(r.body);}});};

@@ -51,6 +51,7 @@ const CITIES = [
   ['Mauguio', '34', 'Occitanie', 3500, 13, 0.7, 0.5],
 ].map(([name, dept, region, pxM2, rentM2, tension, trend]) => ({
   name, dept, region, pxM2, rentM2, tension, trend,
+  rentSource: name === 'Saint-Jean-de-Védas' ? 'alertes SeLoger (loyers réels)' : 'indicatif',
   metro: name === 'Montpellier' || METRO.includes(name),
 }));
 
@@ -103,6 +104,7 @@ function generateListings(n = 220) {
     const floor = ['studio', 't2', 't3', 't4'].includes(type.key) ? Math.floor(rnd() * 7) : null;
     out.push({
       id: i + 1,
+      demo: true, source: 'démonstration',
       city: city.name, dept: city.dept, region: city.region, metro: city.metro,
       address: `${Math.floor(between(1, 80))} ${pick(STREETS)}`,
       type: type.key, typeLabel: type.label,
@@ -123,7 +125,7 @@ function generateListings(n = 220) {
 function applyMarket(market) {
   for (const c of CITIES) {
     const m = market && market.cities && market.cities[c.name];
-    if (m && m.apt && m.apt.medianM2) c.pxM2 = m.apt.medianM2;
+    if (m && m.apt && m.apt.medianM2) { c.pxM2 = m.apt.medianM2; c.source = `${market.source} ${market.year}`; }
   }
 }
 
