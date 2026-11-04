@@ -194,6 +194,7 @@ async function initRentals() {
 /* ---------- init ---------- */
 (async () => {
   const meta = await (await fetch('/api/meta')).json();
+  if (meta.market) $('.hero .demo').textContent = `Prix de marché : ${meta.market.source} ${meta.market.year} (mis à jour le ${meta.market.updatedAt}). Annonces de démonstration.`;
   $('#regionSel').insertAdjacentHTML('beforeend', meta.regions.map((r) => `<option>${esc(r)}</option>`).join(''));
   loadListings();
   initRentals();

@@ -1,8 +1,13 @@
 'use strict';
 // Logique d'API partagée : utilisée par le serveur Node et par la version autonome (navigateur).
-const { generateListings, CITIES } = require('./data');
+const { generateListings, CITIES, applyMarket } = require('./data');
 const { analyze, sectorStats } = require('./analyzer');
 
+// Prix réels DVF si disponibles (node : data/market.json ; version web : module embarqué par build.js)
+let market = null;
+try { market = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, 'data', 'market.json'), 'utf8')); }
+catch (e) { try { market = require('./market'); } catch (e2) { market = null; } }
+if (market) applyMarket(market);
 const LISTINGS = generateListings(220);
 const num = (v, d) => (v === null || v === undefined || v === '' || isNaN(+v) ? d : +v);
 
@@ -16,7 +21,7 @@ function simParams(q) {
 /** @returns {{status:number, body:object}} */
 function route(pathname, q) {
   if (pathname === '/api/meta') {
-    return { status: 200, body: { cities: CITIES.map((c) => c.name).sort(), regions: [...new Set(CITIES.map((c) => c.region))].sort(), total: LISTINGS.length } };
+    return { status: 200, body: { cities: CITIES.map((c) => c.name).sort(), regions: [...new Set(CITIES.map((c) => c.region))].sort(), total: LISTINGS.length, market: market ? { source: market.source, year: market.year, updatedAt: market.updatedAt } : null } };
   }
   const params = simParams(q);
   if (pathname === '/api/sectors') {

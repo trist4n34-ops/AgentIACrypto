@@ -119,4 +119,12 @@ function generateListings(n = 220) {
   return out;
 }
 
-module.exports = { CITIES, generateListings };
+/** Remplace les prix indicatifs par les médianes DVF (voir connectors/dvf.js). */
+function applyMarket(market) {
+  for (const c of CITIES) {
+    const m = market && market.cities && market.cities[c.name];
+    if (m && m.apt && m.apt.medianM2) c.pxM2 = m.apt.medianM2;
+  }
+}
+
+module.exports = { CITIES, generateListings, applyMarket };

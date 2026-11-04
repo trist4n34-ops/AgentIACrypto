@@ -331,7 +331,15 @@ function generateListings(n = 220) {
   return out;
 }
 
-module.exports = { CITIES, generateListings };
+/** Remplace les prix indicatifs par les médianes DVF (voir connectors/dvf.js). */
+function applyMarket(market) {
+  for (const c of CITIES) {
+    const m = market && market.cities && market.cities[c.name];
+    if (m && m.apt && m.apt.medianM2) c.pxM2 = m.apt.medianM2;
+  }
+}
+
+module.exports = { CITIES, generateListings, applyMarket };
 
 };
 __mods["analyzer"]=function(module,exports,require){'use strict';
@@ -464,9 +472,14 @@ module.exports = { analyze, sectorStats };
 };
 __mods["api"]=function(module,exports,require){'use strict';
 // Logique d'API partagée : utilisée par le serveur Node et par la version autonome (navigateur).
-const { generateListings, CITIES } = require('./data');
+const { generateListings, CITIES, applyMarket } = require('./data');
 const { analyze, sectorStats } = require('./analyzer');
 
+// Prix réels DVF si disponibles (node : data/market.json ; version web : module embarqué par build.js)
+let market = null;
+try { market = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, 'data', 'market.json'), 'utf8')); }
+catch (e) { try { market = require('./market'); } catch (e2) { market = null; } }
+if (market) applyMarket(market);
 const LISTINGS = generateListings(220);
 const num = (v, d) => (v === null || v === undefined || v === '' || isNaN(+v) ? d : +v);
 
@@ -480,7 +493,7 @@ function simParams(q) {
 /** @returns {{status:number, body:object}} */
 function route(pathname, q) {
   if (pathname === '/api/meta') {
-    return { status: 200, body: { cities: CITIES.map((c) => c.name).sort(), regions: [...new Set(CITIES.map((c) => c.region))].sort(), total: LISTINGS.length } };
+    return { status: 200, body: { cities: CITIES.map((c) => c.name).sort(), regions: [...new Set(CITIES.map((c) => c.region))].sort(), total: LISTINGS.length, market: market ? { source: market.source, year: market.year, updatedAt: market.updatedAt } : null } };
   }
   const params = simParams(q);
   if (pathname === '/api/sectors') {
@@ -526,6 +539,7 @@ function route(pathname, q) {
 module.exports = { route, LISTINGS };
 
 };
+
 var api=__req('api');
 window.fetch=function(u){var x=new URL(u,'http://x');var r=api.route(x.pathname,x.searchParams);
   return Promise.resolve({ok:r.status<400,status:r.status,json:function(){return Promise.resolve(r.body);}});};
@@ -728,6 +742,7 @@ async function initRentals() {
 /* ---------- init ---------- */
 (async () => {
   const meta = await (await fetch('/api/meta')).json();
+  if (meta.market) $('.hero .demo').textContent = `Prix de marché : ${meta.market.source} ${meta.market.year} (mis à jour le ${meta.market.updatedAt}). Annonces de démonstration.`;
   $('#regionSel').insertAdjacentHTML('beforeend', meta.regions.map((r) => `<option>${esc(r)}</option>`).join(''));
   loadListings();
   initRentals();

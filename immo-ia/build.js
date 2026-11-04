@@ -19,6 +19,7 @@ function __req(n){n=n.replace(/^\\.\\//,'').replace(/\\.js$/,'');if(!__cache[n])
 ${mod('data', read('data.js'))}
 ${mod('analyzer', read('analyzer.js'))}
 ${mod('api', read('api.js'))}
+${fs.existsSync(path.join(__dirname, 'data/market.json')) ? '__mods["market"]=function(module){module.exports=' + read('data/market.json') + ';};' : ''}
 var api=__req('api');
 window.fetch=function(u){var x=new URL(u,'http://x');var r=api.route(x.pathname,x.searchParams);
   return Promise.resolve({ok:r.status<400,status:r.status,json:function(){return Promise.resolve(r.body);}});};
