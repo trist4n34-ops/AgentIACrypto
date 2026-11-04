@@ -143,7 +143,7 @@ body{background:var(--bg);color:var(--ink);padding-block:0}
         </label>
         <label class="f">Trier par
           <select name="sort">
-            <option value="score">Score IA</option><option value="yield">Rendement net</option>
+            <option value="score">Score IA</option><option value="yield">Rendement net</option><option value="cashflow">Cash-flow mensuel</option>
             <option value="discount">Décote vs marché</option><option value="nego">Facilité de négociation</option>
             <option value="price">Prix croissant</option>
           </select>
@@ -472,6 +472,7 @@ function route(pathname, q) {
     });
     const sorts = {
       score: (a, b) => b.analysis.score - a.analysis.score,
+      cashflow: (a, b) => b.analysis.monthlyCashflow - a.analysis.monthlyCashflow,
       yield: (a, b) => b.analysis.netYield - a.analysis.netYield,
       price: (a, b) => a.price - b.price,
       discount: (a, b) => b.analysis.discountPct - a.analysis.discountPct,

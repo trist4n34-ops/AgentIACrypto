@@ -39,6 +39,7 @@ function route(pathname, q) {
     });
     const sorts = {
       score: (a, b) => b.analysis.score - a.analysis.score,
+      cashflow: (a, b) => b.analysis.monthlyCashflow - a.analysis.monthlyCashflow,
       yield: (a, b) => b.analysis.netYield - a.analysis.netYield,
       price: (a, b) => a.price - b.price,
       discount: (a, b) => b.analysis.discountPct - a.analysis.discountPct,
