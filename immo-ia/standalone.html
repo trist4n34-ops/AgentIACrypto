@@ -124,6 +124,16 @@ ul.list li{margin:3px 0}
 .top__in{min-height:56px;flex-wrap:wrap;gap:4px 12px;padding-block:6px}
 .logo{white-space:nowrap}
 .tab{padding:6px 12px;font-size:.9rem;white-space:nowrap}
+.cmp-table td{text-align:left;white-space:normal;vertical-align:top;min-width:120px}
+#cmpTable td{font-size:.85rem}
+@media(max-width:640px){
+  #cmpTable thead{display:none}
+  #cmpTable,#cmpTable tbody,#cmpTable tr,#cmpTable td{display:block;width:100%;min-width:0}
+  #cmpTable tr{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:10px}
+  #cmpTable td{border:0;padding:3px 0}
+  #cmpTable td::before{content:attr(data-l) " : ";color:var(--muted);font-weight:600}
+}
+.tabs{flex-wrap:wrap;justify-content:flex-end;min-width:0}
 
 body{background:var(--bg);color:var(--ink);padding-block:0}
 </style>
@@ -134,6 +144,7 @@ body{background:var(--bg);color:var(--ink);padding-block:0}
         <button class="tab is-on" data-view="annonces" role="tab">Annonces</button>
         <button class="tab" data-view="secteurs" role="tab">Secteurs</button>
         <button class="tab" data-view="loyers" role="tab">Loyers réels</button>
+        <button class="tab" data-view="concurrents" role="tab">Concurrents</button>
       </nav>
     </div>
   </header>
@@ -245,6 +256,19 @@ body{background:var(--bg);color:var(--ink);padding-block:0}
         </div>
       </div>
     </div>
+
+    <!-- ========== CONCURRENTS ========== -->
+    <div id="view-concurrents" hidden>
+      <div class="panel">
+        <h2>ImmoIA face aux outils existants</h2>
+        <p class="muted">Comparatif établi de mémoire en novembre 2026, sans consultation des sites (réseau indisponible). Fonctionnalités et prix sont à vérifier chez chaque éditeur avant de s'en servir.</p>
+        <div class="tablewrap"><table id="cmpTable" class="cmp-table"></table></div>
+        <h3 style="margin:22px 0 8px">Ce qu'ImmoIA apporte en plus</h3>
+        <ul class="list pro" id="cmpPlus"></ul>
+        <h3 style="margin:22px 0 8px">Ce qui manque encore à ImmoIA</h3>
+        <ul class="list con" id="cmpMinus"></ul>
+      </div>
+    </div>
   </main>
 
   <dialog id="modal"><div id="modalBody"></div></dialog>
@@ -344,11 +368,11 @@ const CITIES = [
   ['Lattes', '34', 'Occitanie', 3900, 14, 0.8, 0.0],
   ['Pérols', '34', 'Occitanie', 3300, 13.5, 0.75, 0.5],
   ['Juvignac', '34', 'Occitanie', 3800, 13.5, 0.8, 0.0],
-  ['Saint-Jean-de-Védas', '34', 'Occitanie', 3900, 15.5, 0.85, 0.0],
+  ['Saint-Jean-de-Védas', '34', 'Occitanie', 3900, 16.5, 0.85, 0.0],
   ['Mauguio', '34', 'Occitanie', 3500, 13, 0.7, 0.5],
 ].map(([name, dept, region, pxM2, rentM2, tension, trend]) => ({
   name, dept, region, pxM2, rentM2, tension, trend,
-  rentSource: name === 'Saint-Jean-de-Védas' ? 'alertes SeLoger (loyers réels)' : 'indicatif',
+  rentSource: name === 'Saint-Jean-de-Védas' ? 'alertes SeLoger : 13 locations réelles, oct.-nov. 2026 (18,5 €/m² CC, charges déduites)' : 'indicatif',
   metro: name === 'Montpellier' || METRO.includes(name),
 }));
 
@@ -665,7 +689,263 @@ function route(pathname, q) {
 module.exports = { route, REAL, DEMO };
 
 };
-
+__mods["rentals"]=function(module){module.exports=[
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Sud",
+  "kind": "rent",
+  "label": "Appartement 4 pièces",
+  "rent": 3300,
+  "rooms": 4,
+  "seenAt": "2026-10-23",
+  "source": "seloger-alerte",
+  "surface": 122,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-10-23"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Sud",
+  "kind": "rent",
+  "label": "Appartement T3 (3 pièces)",
+  "rent": 930.04,
+  "rooms": 3,
+  "seenAt": "2026-10-25",
+  "source": "seloger-alerte",
+  "surface": 66,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-10-25"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Sud",
+  "kind": "rent",
+  "label": "Appartement T2 (2 pièces)",
+  "rent": 824.59,
+  "rooms": 2,
+  "seenAt": "2026-10-25",
+  "source": "seloger-alerte",
+  "surface": 49,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-10-25"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Nord",
+  "kind": "rent",
+  "label": "Chambre en colocation étudiante",
+  "rent": 650,
+  "rooms": 1,
+  "seenAt": "2026-10-26",
+  "source": "seloger-alerte",
+  "surface": 12,
+  "zip": "34430",
+  "rentKind": "colocation",
+  "firstSeen": "2026-10-26"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Sud",
+  "kind": "rent",
+  "label": "Appartement 2 pièces",
+  "rent": 689.55,
+  "rooms": 2,
+  "seenAt": "2026-10-28",
+  "source": "seloger-alerte",
+  "surface": 42.86,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-10-28"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Centre Ville",
+  "kind": "rent",
+  "label": "T2 meublé avec terrasse",
+  "rent": 810,
+  "rooms": 2,
+  "seenAt": "2026-10-29",
+  "source": "seloger-alerte",
+  "surface": 38,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-10-29"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Sud",
+  "kind": "rent",
+  "label": "Appartement T4 (4 pièces)",
+  "rent": 1123.91,
+  "rooms": 4,
+  "seenAt": "2026-10-31",
+  "source": "seloger-alerte",
+  "surface": 85,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-10-31"
+ },
+ {
+  "chargesIncluded": false,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Zone d'Activité",
+  "kind": "rent",
+  "label": "Studio / T2 (1 pièce)",
+  "rent": 630,
+  "rooms": 1,
+  "seenAt": "2026-11-01",
+  "source": "seloger-alerte",
+  "surface": 25,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-11-01"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Montpellier",
+  "district": "Ovalie - Bagatelle - Pas du Loup",
+  "kind": "rent",
+  "label": "Appartement 3 pièces (hors secteur)",
+  "rent": 822,
+  "rooms": 3,
+  "seenAt": "2026-11-03",
+  "source": "seloger-alerte",
+  "surface": 60.5,
+  "zip": "34070",
+  "rentKind": "appartement",
+  "firstSeen": "2026-11-03"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Nord",
+  "kind": "rent",
+  "label": "Chambre en colocation",
+  "rent": 600,
+  "rooms": 1,
+  "seenAt": "2026-11-03",
+  "source": "seloger-alerte",
+  "surface": 10,
+  "zip": "34430",
+  "rentKind": "colocation",
+  "firstSeen": "2026-11-03"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Sud",
+  "kind": "rent",
+  "label": "T2 avec balcon et parking",
+  "rent": 745,
+  "rooms": 2,
+  "seenAt": "2026-11-06",
+  "source": "seloger-alerte",
+  "surface": 39,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-11-06"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Sud",
+  "kind": "rent",
+  "label": "T2 neuf en rez-de-chaussée",
+  "rent": 826,
+  "rooms": 2,
+  "seenAt": "2026-11-06",
+  "source": "seloger-alerte",
+  "surface": 43,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-11-06"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Sud",
+  "kind": "rent",
+  "label": "Appartement T2",
+  "rent": 908,
+  "rooms": 2,
+  "seenAt": "2026-11-06",
+  "source": "seloger-alerte",
+  "surface": 48.67,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-11-06"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "",
+  "kind": "rent",
+  "label": "Appartement 3 pièces",
+  "rent": 888,
+  "rooms": 3,
+  "seenAt": "2026-11-07",
+  "source": "seloger-alerte",
+  "surface": 61.4,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-11-07"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "",
+  "kind": "rent",
+  "label": "F2",
+  "rent": 798,
+  "rooms": 2,
+  "seenAt": "2026-11-07",
+  "source": "seloger-alerte",
+  "surface": 42,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-11-07"
+ },
+ {
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Sud",
+  "kind": "rent",
+  "label": "T3 neuf",
+  "rent": 1190,
+  "rooms": 3,
+  "seenAt": "2026-11-09",
+  "source": "seloger-alerte",
+  "surface": 65.55,
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-11-09"
+ },
+ {
+  "seenAt": "2026-11-05",
+  "source": "seloger-alerte",
+  "kind": "rent",
+  "label": "T2 vide avec terrasse et garage",
+  "rooms": 2,
+  "surface": 43,
+  "rent": 794,
+  "chargesIncluded": true,
+  "city": "Saint-Jean-de-Védas",
+  "district": "Sud",
+  "zip": "34430",
+  "rentKind": "appartement",
+  "firstSeen": "2026-11-05"
+ }
+];};
 var api=__req('api');
 window.fetch=function(u){var x=new URL(u,'http://x');var r=api.route(x.pathname,x.searchParams);
   return Promise.resolve({ok:r.status<400,status:r.status,json:function(){return Promise.resolve(r.body);}});};
@@ -968,13 +1248,45 @@ $('#sectors tbody').addEventListener('click', (e) => {
   loadListings();
 });
 
+/* ---------- concurrents (contenu statique, non vérifié en ligne) ---------- */
+const COMPETITORS = [
+  { name: 'SeLoger / Bien\'ici', role: 'Portails d\'annonces', plus: 'Volume d\'annonces le plus large, alertes e-mail quotidiennes', minus: 'Aucune analyse de rentabilité ni de négociation', price: 'Gratuit (acheteur)', data: 'Annonces des agences et particuliers' },
+  { name: 'Jinka', role: 'Agrégateur d\'alertes', plus: 'Réunit plusieurs portails, alertes quasi instantanées, filtre les doublons', minus: 'Peu de calcul financier, pensé pour la location autant que l\'achat', price: 'Gratuit + abonnement', data: 'Portails d\'annonces' },
+  { name: 'Lybox', role: 'Agrégateur pour investisseurs', plus: 'Rendement affiché sur les annonces agrégées, filtres investisseur', minus: 'Abonnement, calculs peu paramétrables', price: 'Abonnement', data: 'Portails d\'annonces, estimation de loyers' },
+  { name: 'Horiz.io (ex-Rendement Locatif)', role: 'Simulateur de rentabilité', plus: 'Simulation détaillée avec fiscalité (LMNP, SCI), suivi de patrimoine', minus: 'Les biens sont saisis à la main, pas de recherche d\'annonces', price: 'Gratuit limité + abonnement', data: 'Saisie utilisateur' },
+  { name: 'Castorus', role: 'Historique des annonces', plus: 'Historique des prix et durée de mise en vente d\'une annonce', minus: 'Pas de rendement ni de score, extension navigateur', price: 'Gratuit', data: 'Suivi des annonces' },
+  { name: 'MeilleursAgents', role: 'Estimation de prix', plus: 'Prix au m² par rue, historique du marché', minus: 'Pas d\'annonces investisseur, pas de cash-flow', price: 'Gratuit (particulier)', data: 'Ventes réelles, estimations' },
+  { name: 'ImmoIA', role: 'Analyse d\'opportunité', plus: 'Score unique : décote, rendement net, cash-flow, négociation et offre conseillée ; priorité Montpellier ; sources affichées', minus: 'Annonces réelles seulement via alertes e-mail ou import ; DVF à brancher', price: 'Ouvert, sans abonnement', data: 'DVF, alertes de l\'utilisateur, loyers observés' },
+];
+const COMPETITOR_PLUS = [
+  'Un seul score lisible qui combine prix vs marché, rendement net, cash-flow, demande locative et marge de négociation.',
+  'Une offre d\'achat conseillée avec ses leviers (durée en ligne, baisses, DPE, vendeur pressé).',
+  'Chaque chiffre indique sa source et sa date ; les données indicatives ou de démonstration sont signalées.',
+  'Loyers réels observés dans les alertes de l\'utilisateur, utilisés pour recaler le modèle.',
+  'Favoris, comparaison côte à côte, export CSV et analyse rédigée sans abonnement.',
+];
+const COMPETITOR_MINUS = [
+  'Pas de flux d\'annonces en direct : il faut des alertes « Acheter » ou un import.',
+  'Pas de fiscalité (LMNP, SCI, déficit foncier) dans le calcul du rendement.',
+  'Pas d\'historique de prix sur l\'ensemble du marché, seulement sur les annonces importées.',
+  'Prix de marché indicatifs tant que DVF n\'est pas branché.',
+];
+function renderCompetitors() {
+  $('#cmpTable').innerHTML = `<thead><tr><th>Outil</th><th>Rôle</th><th>Points forts</th><th>Limites</th><th>Prix</th><th>Données</th></tr></thead><tbody>${
+    COMPETITORS.map((c) => `<tr${c.name === 'ImmoIA' ? ' style="font-weight:600"' : ''}><td data-l="Outil">${esc(c.name)}</td><td data-l="Rôle">${esc(c.role)}</td><td data-l="Points forts">${esc(c.plus)}</td><td data-l="Limites">${esc(c.minus)}</td><td data-l="Prix">${esc(c.price)}</td><td data-l="Données">${esc(c.data)}</td></tr>`).join('')}</tbody>`;
+  $('#cmpPlus').innerHTML = COMPETITOR_PLUS.map((x) => `<li>${esc(x)}</li>`).join('');
+  $('#cmpMinus').innerHTML = COMPETITOR_MINUS.map((x) => `<li>${esc(x)}</li>`).join('');
+}
+
 /* ---------- onglets ---------- */
 function show(view) {
   document.querySelectorAll('.tab').forEach((b) => b.classList.toggle('is-on', b.dataset.view === view));
   $('#view-annonces').hidden = view !== 'annonces';
   $('#view-secteurs').hidden = view !== 'secteurs';
   $('#view-loyers').hidden = view !== 'loyers';
+  $('#view-concurrents').hidden = view !== 'concurrents';
   if (view === 'secteurs') loadSectors();
+  if (view === 'concurrents') renderCompetitors();
 }
 document.querySelector('.tabs').addEventListener('click', (e) => {
   const b = e.target.closest('.tab');

@@ -15,6 +15,7 @@
         <button class="tab is-on" data-view="annonces" role="tab">Annonces</button>
         <button class="tab" data-view="secteurs" role="tab">Secteurs</button>
         <button class="tab" data-view="loyers" role="tab">Loyers réels</button>
+        <button class="tab" data-view="concurrents" role="tab">Concurrents</button>
       </nav>
     </div>
   </header>
@@ -124,6 +125,19 @@
             <tbody></tbody>
           </table>
         </div>
+      </div>
+    </div>
+
+    <!-- ========== CONCURRENTS ========== -->
+    <div id="view-concurrents" hidden>
+      <div class="panel">
+        <h2>ImmoIA face aux outils existants</h2>
+        <p class="muted">Comparatif établi de mémoire en novembre 2026, sans consultation des sites (réseau indisponible). Fonctionnalités et prix sont à vérifier chez chaque éditeur avant de s'en servir.</p>
+        <div class="tablewrap"><table id="cmpTable" class="cmp-table"></table></div>
+        <h3 style="margin:22px 0 8px">Ce qu'ImmoIA apporte en plus</h3>
+        <ul class="list pro" id="cmpPlus"></ul>
+        <h3 style="margin:22px 0 8px">Ce qui manque encore à ImmoIA</h3>
+        <ul class="list con" id="cmpMinus"></ul>
       </div>
     </div>
   </main>

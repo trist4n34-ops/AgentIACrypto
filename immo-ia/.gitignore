@@ -1,3 +1,4 @@
 data/*
 !data/market.json
+!data/rentals.json
 node_modules/

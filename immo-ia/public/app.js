@@ -294,13 +294,45 @@ $('#sectors tbody').addEventListener('click', (e) => {
   loadListings();
 });
 
+/* ---------- concurrents (contenu statique, non vérifié en ligne) ---------- */
+const COMPETITORS = [
+  { name: 'SeLoger / Bien\'ici', role: 'Portails d\'annonces', plus: 'Volume d\'annonces le plus large, alertes e-mail quotidiennes', minus: 'Aucune analyse de rentabilité ni de négociation', price: 'Gratuit (acheteur)', data: 'Annonces des agences et particuliers' },
+  { name: 'Jinka', role: 'Agrégateur d\'alertes', plus: 'Réunit plusieurs portails, alertes quasi instantanées, filtre les doublons', minus: 'Peu de calcul financier, pensé pour la location autant que l\'achat', price: 'Gratuit + abonnement', data: 'Portails d\'annonces' },
+  { name: 'Lybox', role: 'Agrégateur pour investisseurs', plus: 'Rendement affiché sur les annonces agrégées, filtres investisseur', minus: 'Abonnement, calculs peu paramétrables', price: 'Abonnement', data: 'Portails d\'annonces, estimation de loyers' },
+  { name: 'Horiz.io (ex-Rendement Locatif)', role: 'Simulateur de rentabilité', plus: 'Simulation détaillée avec fiscalité (LMNP, SCI), suivi de patrimoine', minus: 'Les biens sont saisis à la main, pas de recherche d\'annonces', price: 'Gratuit limité + abonnement', data: 'Saisie utilisateur' },
+  { name: 'Castorus', role: 'Historique des annonces', plus: 'Historique des prix et durée de mise en vente d\'une annonce', minus: 'Pas de rendement ni de score, extension navigateur', price: 'Gratuit', data: 'Suivi des annonces' },
+  { name: 'MeilleursAgents', role: 'Estimation de prix', plus: 'Prix au m² par rue, historique du marché', minus: 'Pas d\'annonces investisseur, pas de cash-flow', price: 'Gratuit (particulier)', data: 'Ventes réelles, estimations' },
+  { name: 'ImmoIA', role: 'Analyse d\'opportunité', plus: 'Score unique : décote, rendement net, cash-flow, négociation et offre conseillée ; priorité Montpellier ; sources affichées', minus: 'Annonces réelles seulement via alertes e-mail ou import ; DVF à brancher', price: 'Ouvert, sans abonnement', data: 'DVF, alertes de l\'utilisateur, loyers observés' },
+];
+const COMPETITOR_PLUS = [
+  'Un seul score lisible qui combine prix vs marché, rendement net, cash-flow, demande locative et marge de négociation.',
+  'Une offre d\'achat conseillée avec ses leviers (durée en ligne, baisses, DPE, vendeur pressé).',
+  'Chaque chiffre indique sa source et sa date ; les données indicatives ou de démonstration sont signalées.',
+  'Loyers réels observés dans les alertes de l\'utilisateur, utilisés pour recaler le modèle.',
+  'Favoris, comparaison côte à côte, export CSV et analyse rédigée sans abonnement.',
+];
+const COMPETITOR_MINUS = [
+  'Pas de flux d\'annonces en direct : il faut des alertes « Acheter » ou un import.',
+  'Pas de fiscalité (LMNP, SCI, déficit foncier) dans le calcul du rendement.',
+  'Pas d\'historique de prix sur l\'ensemble du marché, seulement sur les annonces importées.',
+  'Prix de marché indicatifs tant que DVF n\'est pas branché.',
+];
+function renderCompetitors() {
+  $('#cmpTable').innerHTML = `<thead><tr><th>Outil</th><th>Rôle</th><th>Points forts</th><th>Limites</th><th>Prix</th><th>Données</th></tr></thead><tbody>${
+    COMPETITORS.map((c) => `<tr${c.name === 'ImmoIA' ? ' style="font-weight:600"' : ''}><td data-l="Outil">${esc(c.name)}</td><td data-l="Rôle">${esc(c.role)}</td><td data-l="Points forts">${esc(c.plus)}</td><td data-l="Limites">${esc(c.minus)}</td><td data-l="Prix">${esc(c.price)}</td><td data-l="Données">${esc(c.data)}</td></tr>`).join('')}</tbody>`;
+  $('#cmpPlus').innerHTML = COMPETITOR_PLUS.map((x) => `<li>${esc(x)}</li>`).join('');
+  $('#cmpMinus').innerHTML = COMPETITOR_MINUS.map((x) => `<li>${esc(x)}</li>`).join('');
+}
+
 /* ---------- onglets ---------- */
 function show(view) {
   document.querySelectorAll('.tab').forEach((b) => b.classList.toggle('is-on', b.dataset.view === view));
   $('#view-annonces').hidden = view !== 'annonces';
   $('#view-secteurs').hidden = view !== 'secteurs';
   $('#view-loyers').hidden = view !== 'loyers';
+  $('#view-concurrents').hidden = view !== 'concurrents';
   if (view === 'secteurs') loadSectors();
+  if (view === 'concurrents') renderCompetitors();
 }
 document.querySelector('.tabs').addEventListener('click', (e) => {
   const b = e.target.closest('.tab');

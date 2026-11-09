@@ -47,11 +47,11 @@ const CITIES = [
   ['Lattes', '34', 'Occitanie', 3900, 14, 0.8, 0.0],
   ['Pérols', '34', 'Occitanie', 3300, 13.5, 0.75, 0.5],
   ['Juvignac', '34', 'Occitanie', 3800, 13.5, 0.8, 0.0],
-  ['Saint-Jean-de-Védas', '34', 'Occitanie', 3900, 15.5, 0.85, 0.0],
+  ['Saint-Jean-de-Védas', '34', 'Occitanie', 3900, 16.5, 0.85, 0.0],
   ['Mauguio', '34', 'Occitanie', 3500, 13, 0.7, 0.5],
 ].map(([name, dept, region, pxM2, rentM2, tension, trend]) => ({
   name, dept, region, pxM2, rentM2, tension, trend,
-  rentSource: name === 'Saint-Jean-de-Védas' ? 'alertes SeLoger (loyers réels)' : 'indicatif',
+  rentSource: name === 'Saint-Jean-de-Védas' ? 'alertes SeLoger : 13 locations réelles, oct.-nov. 2026 (18,5 €/m² CC, charges déduites)' : 'indicatif',
   metro: name === 'Montpellier' || METRO.includes(name),
 }));
 
